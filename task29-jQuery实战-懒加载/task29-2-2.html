@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图片懒加载方法二</title>
+    <script src="http://kejian.jirengu.com/static/js/jquery-1.11.1.min.js"></script>
+    <style>
+        ul, li {
+            list-style: none;
+        }
+        .container {
+            width: 600px;
+            margin: 0 auto;
+        }
+        .container li {
+            float: left;
+            margin: 10px;
+        }
+        .container li img {
+            width: 240px;
+            height: 180px;
+        }
+    </style>
+</head>
+<body>
+    <ul class="container">
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="1" data-src="http://cdn.jirengu.com/book.jirengu.com/img/1.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="2" data-src="http://cdn.jirengu.com/book.jirengu.com/img/2.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="3" data-src="http://cdn.jirengu.com/book.jirengu.com/img/3.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="4" data-src="http://cdn.jirengu.com/book.jirengu.com/img/4.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="5" data-src="http://cdn.jirengu.com/book.jirengu.com/img/5.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="6" data-src="http://cdn.jirengu.com/book.jirengu.com/img/6.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="7" data-src="http://cdn.jirengu.com/book.jirengu.com/img/7.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="8" data-src="http://cdn.jirengu.com/book.jirengu.com/img/8.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="9" data-src="http://cdn.jirengu.com/book.jirengu.com/img/9.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="10" data-src="http://cdn.jirengu.com/book.jirengu.com/img/10.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="11" data-src="http://cdn.jirengu.com/book.jirengu.com/img/11.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="12" data-src="http://cdn.jirengu.com/book.jirengu.com/img/12.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="13" data-src="http://cdn.jirengu.com/book.jirengu.com/img/13.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="14" data-src="http://cdn.jirengu.com/book.jirengu.com/img/14.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="15" data-src="http://cdn.jirengu.com/book.jirengu.com/img/15.jpg"></a></li>
+        <li><a href="#"><img src="http://kejian.jirengu.com/data/fe/%E8%AF%BE%E4%BB%B6/32-%E6%87%92%E5%8A%A0%E8%BD%BD/code/blank.jpg" alt="16" data-src="http://cdn.jirengu.com/book.jirengu.com/img/16.jpg"></a></li>        
+    </ul>
+
+    <script>
+
+/*
+1. 对于所有的 img 标签，把真实的地址放入自定义属性data-img
+2. 当滚动页面时，检查页面所有的 img 标签，看看这个标签是否出现到我们的视野，当出现在我们的视野时，再去判断它是否已经加载过，如果没有加载过，加载它
+*/
+        //方法二：
+        //定义滚动停留延迟函数
+        var clock;
+        $(window).on('scroll', function(){
+            //用户鼠标滚轮滚动一次，有多次事件响应。下面的 setTimeout 主要是为性能考虑，只在最后一次事件响应的时候执行 checkshow
+            if(clock){
+                clearTimeout(clock);  //停留时间如果没到300毫秒，就清除clock，重新计算
+            }
+            clock = setTimeout(function(){
+                checkShow();  //停留时间到达300毫秒，就执行checkShow()函数
+            }, 300);
+        });
+
+        // 用户第一次打开页面，还未滚动窗口的时候需要执行一次checkShow
+        checkShow();
+
+        //checkShow()函数：遍历img标签;如果img标签有isLoaded属性就直接返回，如果没有继续执行。如果isShow(img)函数返回true，就执行showImg(img)函数
+        function checkShow(){
+            $('.container img').each(function(){
+                //闭包中this指向img
+                if($(this).attr('isLoaded')){
+                    return;
+                }
+                if(isShow($(this))){
+                    showImg($(this));
+                }
+            });    
+        }
+
+        function isShow($el){
+            var scrollH = $(window).scrollTop(),
+                winH = $(window).height(),
+                top = $el.offset().top;
+            if(top < winH + scrollH){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function showImg($el){
+            $el.attr('src', $el.attr('data-src'));
+            $el.attr('isLoaded', true);
+        }
+    </script>
+</body>
+</html>

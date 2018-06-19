@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .ct{
+            background: pink;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <ul class="ct">
+        <li>列表1</li>
+        <li>列表2</li>
+        <li>列表3</li>
+    </ul>
+    <input type="text" id="ipt-add-content" placeholder="添加内容">
+    <button id="btn-add-start">开头添加</button>
+    <button id="btn-add-end">结尾添加</button>
+    <script>
+        var ct = document.querySelector('.ct'),
+            ipt = document.querySelector('#ipt-add-content'),
+            addStartBtn = document.querySelector('#btn-add-start'),
+            addEndBtn = document.querySelector('#btn-add-end');
+        ct.addEventListener('click', function(e){
+            if (e.target.tagName.toLowerCase() === 'li'){
+                console.log(e.target.innerText);
+            }
+        }); //用事件代理绑定点击内部子元素事件
+
+  
+        addStartBtn.addEventListener('click', function(){
+            var li = document.createElement('li');
+            li.innerText = ipt.value;              
+            ct.insertBefore(li, ct.firstChild);          
+        })
+
+        addEndBtn.addEventListener('click', function(){
+            var li = document.createElement('li');
+            li.innerText = ipt.value;
+            ct.appendChild(li);
+            console.log(li);
+        })
+    </script>
+</body>
+</html>

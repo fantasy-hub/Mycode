@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>task18</title>
+</head>
+
+<body>
+    <script>
+        /*
+                arr = ["a", "b"];
+                arr.push( function() { alert(console.log('hello hunger valley')) } );
+                arr[arr.length-1]() 删掉一位，错位执行
+
+                var console = {};
+                function loger(4567889) {
+                    xxxx;
+                    var a = 1;
+                }
+                console.log = loger; //console.log对象，log是属性  loger是函数。console.log是对象也是函数，由于没有返回值（return），所以函数执行后是undefined
+                */
+
+        //使用数组拼接出如下字符串
+        //花括号内是对象 即prod.name='女装'
+        var prod = {
+            name: '女装',
+            styles: ['短款', '冬季', '春装']
+        };
+
+        function getTplstr(data) {
+            var html = [];
+            html.push('<div class="product">' + '\n');
+            html.push('\t' + '<dt>' + data.name + '</dt>' + '\n'); // \t缩进 \n换行
+            for (var i = 0; i < data.styles.length; i++) {
+                html.push('\t' + '<dd>' + data.styles[i] + '</dd>' + '\n')
+            }
+            html.push('<dl>');
+            return html.join(''); //把html属性的值拼接成字符串
+        }
+
+        var result = getTplstr(prod);
+        console.log(result);
+
+
+        //写一个find函数，实现下面功能
+        /*
+        arr = ["a", "b", 1, 3, 5, "b", 2];
+        newarr = filterNumeric(arr);  //   [1,3,5,2]
+        */
+        var arr = ["test", 2, 1.5, false]
+
+        function find(arr, val) { //这行的arr与上一行的arr有关系吗？为什么要设置两个临时变量？
+            var sum = arr.indexOf(val); //这行的意思把val作为临时变量应用到对象中吗？
+            return sum;
+        }
+        console.log(find(arr, "test")); //0
+        console.log(find(arr, 2)); //1
+        console.log(find(arr, 0)); //-1
+        //方法2
+        var arr3 = ["test", 2, 1.5, false];
+
+        function find(arr, val) {
+            var result = -1;
+            for (var j = 0; j < arr.length; j++) {
+                if (val === arr[j]) {
+                    result = j;
+                }
+            }
+            return result;
+        }
+        console.log(find(arr3, "test"));
+        console.log(find(arr3, 2));
+        console.log(find(arr3, 0));
+
+
+        //写一个函数filterNumeric，把数组arr中的数字过滤出来赋值给新数组newarr，原数组arr不变
+        var arr = ["a", "b", 1, 3, 5, "b", 2];
+        newarr = filterNumberic(arr);
+
+        function filterNumberic(arrA) {
+            var result = [];
+            for (var i = 0; i < arrA.length; i++) {
+                if (typeof arrA[i] == 'number') {
+                    result.push(arrA[i]);
+                }
+            }
+            return result;
+        }
+        console.log(newarr);
+
+
+        //对象obj有个className属性，里面的值为的是空格分割的字符串(和html元素的class特性类似)，
+        //写addClass、removeClass函数，有如下功能：
+        /*
+        var obj = {
+        className: 'open menu'
+        }
+        addClass(obj, 'new')  // obj.className='open menu new'
+        addClass(obj, 'open')  // 因为open已经存在，所以不会再次添加open
+        addClass(obj, 'me') // me不存在，所以 obj.className变为'open menu new me'
+        console.log(obj.className)  // "open menu new me"
+
+        removeClass(obj, 'open') // 去掉obj.className里面的 open，变成'menu new me'
+        removeClass(obj, 'blabla')  // 因为blabla不存在，所以此操作无任何影响
+        */
+
+
+        //写一个filter(arr, func) 函数用于过滤数组，接受两个参数，第一个是要处理的数组，第二个参数是回调函数(回调函数遍历接受每一个数组元素，当函数返回true时保留该元素，否则删除该元素)。实现如下功能：
+        var arr10 = ['a', 'b', 3, 4, true, -1, 2, 'b'];
+
+        function isNumberic(el) {
+            return typeof el === 'number';
+        }
+
+        function filter(arr, fn) {
+            for (var i = 0; i < arr.length; i++) {
+                if (!fn(arr[i])) {
+                    arr.splice(i, 1);
+                    i--;
+                }
+            }
+            return arr;
+        }
+        console.log(arr10 = filter(arr10, isNumberic));
+        console.log(arr10 = filter(arr10, function (val) {
+            return typeof val === 'number' && val > 0;
+        }));
+
+
+        //写一个camelize函数，把my-short-string形式的字符串转化成myShortString形式的字符串
+        function ucFirest(str) {
+            return str.replace(str[0], str.substr(0, 1).toUpperCase());
+        }
+        console.log(ucFirest('hunger'));
+
+
+        //写一个函数truncate(str, maxlength), 如果str的长度大于maxlength，会把str截断到maxlength长，并加上...，如
+        function truncate(str, maxlength) {
+            var newstr = '';
+            if (str.length > maxlength) {
+                newstr = str.substr(0, maxlength) + '...';
+            } else {
+                newstr = str;
+            }
+            return newstr;
+        }
+        console.log(truncate('hello, this is hunger valley', 10));
+        console.log(truncate('hello world', 20));
+
+
+        //写一个函数，获取从min到max之间的随机整数，包括min不包括max 
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+        for (var i = 0; i < 10; i++) {
+            console.log(getRandomInt(4, 7));
+        }
+
+
+        //写一个函数，生成一个长度为 n 的随机字符串，字符串字符的取值范围包括0到9，a到 z，A到Z。
+
+        function getRandStr(len) {
+            var str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                newstr = "";
+            for (var i = 0; i < len; i++) {
+                newstr += str[Math.floor(Math.random() * str.length)];
+            }
+            return newstr;
+        }
+
+        var str = getRandStr(10);
+        console.log(str);
+    </script>
+</body>
+
+</html>

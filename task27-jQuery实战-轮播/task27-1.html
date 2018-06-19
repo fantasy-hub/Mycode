@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>淡入淡出</title>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <style>
+        html,
+        body,
+        ul,
+        li,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .carousel {
+            position: relative;
+            width: 310px;
+            height: 206px;
+            overflow: hidden;
+        }
+
+        .carousel .img-ct {
+            position: absolute;
+        }
+
+        .carousel .img-ct img {
+            width: 310px;
+            height: 206px;
+        }
+
+        .carousel .img-ct:after {
+            display: block;
+            content: '';
+            clear: both;
+        }
+
+        .carousel .img-ct li {
+            float: left;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            margin-top: -15px;
+            /*自身高度的一半居中*/
+            width: 30px;
+            height: 30px;
+            line-height: 27px;
+            text-align: center;
+            background: #4E443C;
+            color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 0 2px #999;
+            opacity: 0.8;
+        }
+
+        .arrow:hover {
+            opacity: 1;
+        }
+
+        .pre {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        ul.bullet {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            /*水平方向偏移盒子自身的50%*/
+        }
+
+        ul.bullet li {
+            width: 16px;
+            height: 4px;
+            border-radius: 2px;
+            background: #fff;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        ul.bullet li.active {
+            background: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="carousel">
+        <ul class="img-ct">
+            <li data-id=0>
+                <a href="">
+                    <img src="http://cdn.jirengu.com/book.jirengu.com/img/26.jpg" alt="">
+                </a>
+            </li>
+            <li data-id=1>
+                <a href="">
+                    <img src="http://cdn.jirengu.com/book.jirengu.com/img/25.jpg" alt="">
+                </a>
+            </li>
+            <li data-id=2>
+                <a href="">
+                    <img src="http://cdn.jirengu.com/book.jirengu.com/img/24.jpg" alt="">
+                </a>
+            </li>
+            <li data-id=3>
+                <a href="">
+                    <img src="http://cdn.jirengu.com/book.jirengu.com/img/23.jpg" alt="">
+                </a>
+            </li>
+        </ul>
+
+        <a href="#" class="pre arrow">
+            <</a>
+                <a href="#" class="next arrow">></a>
+
+                <ul class="bullet">
+                    <li class="active"></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+    </div>
+
+
+    <script>
+        $(function () {
+            var $ct = $('.img-ct'),
+                $items = $ct.children(),
+                $pre = $('.pre');
+                $next = $('.next'),
+                $bullet = $('.bullet'),
+                imgWidth = $items.width(),
+                imgCount = $ct.children().size(); //4个li
+                
+            $ct.width(imgCount* imgWidth);
+
+            var curIdx = 0;
+                isAnimate = false;
+
+            $next.on('click', function () {
+                playNext();
+            });
+            $pre.on('click', function () {
+                playPre();
+            });
+            $bullet.find('li').on('click', function(){  //跳转下标滑块
+                var idx = $(this).index();  //点击的第几个li
+                play(idx);
+            });
+
+
+            play(0);
+            // autoPlay();
+            function stopAuto() {
+                clearInterval(clock);
+            }
+
+            function autoPlay() {
+                clock = setInterval(function () {
+                    playNext();
+                }, 1500);
+            }
+
+            function playNext() {
+                play((curIdx + 1) % imgCount); //临界条件：(3 + 1)%4 余数0，相当于处于4位置上。此时替换面板将curIdx位置在第一位li上。clone()后共六个li，第一位li即第二个li上
+            }
+
+            function playPre() {
+                play((imgCount + curIdx - 1) % imgCount); //临界条件：(4+0-1)%4余3，相当于处于-1位置上。此时替换面板将curIdx位置在第四位li上。
+            }
+
+            function setBullet() {
+                $bullet.children().removeClass('active')
+                    .eq(curIdx).addClass('active');
+            }
+
+            function play(idx) {
+                if (isAnimate) return; //如果动画执行中，直接返回
+                isAnimate = true; //如果动画没有执行；上锁这里不可重复点击，执行下面代码，下面代码执行后解锁
+                $items.eq(curIdx).fadeOut(500, function () { //淡出
+                    isAnimate = false;
+                }); 
+                $items.eq(idx).fadeIn(500, function () { //淡入
+                    isAnimate = false;
+                });
+                curIdx = idx;
+                setBullet();
+            }
+        });
+    </script>
+</body>
+
+</html>

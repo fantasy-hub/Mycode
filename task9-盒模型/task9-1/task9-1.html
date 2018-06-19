@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>task9-盒模型-1</title>
+  <style>
+    div#content {
+      border: 2px solid silver;
+      width: 600px;
+      height: 200px;
+      padding:10px;
+    }
+    .btn {
+      display: inline-block;
+      color: white;
+      background-color: orangered;
+      border-radius: 5px;
+      width: 50px;
+      text-align: center;
+    }
+    .btn:first-child {
+      text-decoration: none;
+    }
+    .btn:last-child {
+      height: 21px;
+      border: 0;
+      padding: 0px;
+      vertical-align: top;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div id="content">
+    <div id="button">
+      <a class="btn" href="#">确定</a>
+      <span class="btn">取消</span>
+      <div class="btn">提交</div>
+      <button class="btn">发送</button>
+    </div>
+  </div>
+</body>
+</html> 

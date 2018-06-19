@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Stickup</title>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <style>
+        .wrap {
+            width: 900px;
+            margin: 0 auto;
+        }
+
+        #header .wrap {
+            height: 50px;
+            line-height: 50px;
+            background: red;
+        }
+        .nav {
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid;
+            background: yellow;
+        }
+
+        .ct {
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        .ct:after {
+            display: block;
+            content: '';
+            clear: both;
+        }
+        .aside {
+            float: left;
+            width: 200px;
+            height: 400px;
+            background: pink;
+            padding-top: 5px;
+        }
+        .aside2 {
+            background: yellow;
+        }
+        .aside3 {
+            background: red;
+        }
+        .main {
+            overflow: hidden;
+            float: right;
+            width: 680px;
+            height: 400px;
+            padding-top: 5px;
+            background: blue;
+        }
+        .footer {
+            background: green;
+            margin-top:20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div class="wrap">header</div>
+    </div>
+
+    <div id="content">
+        <div class="wrap">
+            <div class="ct">
+                <div class="nav">nav1</div>
+                <div class="aside aside1">aside1</div>
+                <div class="main">main1</div>
+            </div>
+            <div class="ct">
+                <div class="nav">nav2</div>
+                <div class="aside aside2">aside2</div>
+                <div class="main">main2</div>
+            </div>
+            <div class="ct">
+                <div class="nav">nav3</div>
+                <div class="aside aside3">aside3</div>
+                <div class="main">main3</div>
+            </div>
+            <div class="ct">
+                <div class="nav">nav4</div>
+                <div class="aside aside4">aside4</div>
+                <div class="main">main4</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer wrap">footer</div>
+
+
+    <script>
+        /*
+        对上例stickup-jquery.html 做个 each 遍历循环即可实现对多个 nav 应用 stickup 效果
+        代码只是实现功能，但比较丑陋，初学者可以模仿。
+        可以使用 stick-plugin.html 里面的插件来实现效果
+        */
+        $('.nav').each(function(){  //显式遍历class为nav的html元素
+            var $cur = $(this),
+                curH = $cur.height(),
+                curW = $cur.width(),
+                offsetTop = $cur.offset().top,
+                offsetLeft = $cur.offset().left;
+
+            var $curClone = $cur.clone()
+                                .css({visibility:'hidden', display: 'none'})
+                                .insertBefore($cur);
+            
+            $(window).on('scroll', function(){
+                var scrollTop = $(this).scrollTop();
+                if(scrollTop >= offsetTop){
+                    if(!isFixed()){
+                        setFixed();
+                    }
+                } else {
+                    if(isFixed()){
+                        unsetFixed();
+                    }
+                }
+            });
+
+            function isFixed(){
+                return $cur.data('data-fixed');  //返回$cur上数据存储的值：true or false
+            }
+
+            function setFixed(){
+                $cur.data('data-fixed', true)
+                    .css({
+                        'position': 'fixed',
+                        'top': 0,
+                        'left': offsetLeft,
+                        'width': curW,
+                        'margin': 0,
+                        'z-index': 1000
+                    });
+                $curClone.show();
+            }
+
+            function unsetFixed(){
+                $cur.data('data-fixed', false)
+                    .removeAttr('style');
+                $curClone.hide();
+            }
+        });
+    </script>
+</body>
+</html>

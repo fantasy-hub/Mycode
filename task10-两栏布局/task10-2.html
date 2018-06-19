@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        .tooltip {
+            width: 200px;
+            height: 80px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            position: relative;
+            margin: 40px;
+        }
+        .caret-left {
+            width: 0px;
+            height: 0px;
+            border: 10px solid transparent;
+            border-right-color: #ccc;
+            position: absolute;
+            left: -20px;
+        }
+        .caret-top {
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-bottom-color: #ccc;
+            position: absolute;
+            top: -20px;
+            left: 90px;
+        }
+        .caret-top-cover {
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-bottom-color: white;
+            position: absolute;
+            top: -19px;
+            left: 90px;            
+        }
+        .caret-rotate {
+            position: absolute;
+            top: -8px;
+            left: 92px;
+            width: 13px;
+            height: 13px;
+            border: 1px solid #ccc;
+            transform: rotate(45deg);
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="tooltip">
+        <div class="caret-left"></div>
+    </div>
+    <div class="tooltip">
+        <div class="caret-top"></div>
+        <div class="caret-top-cover"></div>
+    </div>
+    <div class="tooltip">
+        <div class="caret-rotate">
+    </div>
+</body>
+</html>

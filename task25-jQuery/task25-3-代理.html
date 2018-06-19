@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>代理</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body,
+        ul,
+        li,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        body {
+            font: 12px/150% Arial, Verdana, "\5b8b\4f53";
+            color: #666;
+        }
+
+        a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .layout {
+            width: 702px;
+            margin: 10px auto;
+        }
+
+        .btn {
+            display: inline-block;
+            /*设置行内块元素宽度不会像块级元素一样auto占满父容器宽度*/
+            border: 1px solid #c81623;
+            color: #c81623;
+            padding: 10px 15px;
+            border-radius: 3px;
+            text-align: center;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        /*蒙层*/
+
+        .cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            opacity: 0;
+        }
+
+        /*蒙层按钮*/
+
+        .cover .btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .prod.hover .cover {
+            opacity: 1;
+        }
+
+        .prod-ct:after {
+            display: block;
+            content: '';
+            clear: both;
+        }
+
+        .prod-ct {
+            margin-left: -20px;
+            margin-top: -20px;
+        }
+
+        .prod {
+            position: relative;
+            float: left;
+            width: 220px;
+            padding: 10px 20px;
+            margin-left: 20px;
+            margin-top: 20px;
+            text-align: center;
+            border: 1px solid #eee;
+            background: #fff;
+        }
+
+        .prod-name {
+            height: 36px;
+            text-align: center;
+            font-weight: normal;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .prod-price {
+            text-align: center;
+            color: #c81623;
+        }
+
+        .btn-add {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout">
+        <h1>珠宝首饰</h1>
+        <ul class="prod-ct">
+            <li class="prod">
+                <div class="cover">
+                    <a href="" class="btn">立即抢购</a>
+                </div>
+                <a href="#">
+                    <img src="http://img10.360buyimg.com/N3/jfs/t1360/330/897475737/123557/23624706/55b05e25N13d4ec5e.jpg" alt="">
+                    <div class="prod-name">千足金和田玉</div>
+                    <div class="prod-price">￥998</div>
+                </a>
+            </li>
+
+            <li class="prod">
+                <div class="cover">
+                    <a href="" class="btn">立即抢购</a>
+                </div>
+                <a href="#">
+                    <img src="http://img10.360buyimg.com/N3/jfs/t1360/330/897475737/123557/23624706/55b05e25N13d4ec5e.jpg" alt="">
+                    <div class="prod-name">千足金和田玉</div>
+                    <div class="prod-price">￥998</div>
+                </a>
+            </li>
+
+            <li class="prod">
+                <div class="cover">
+                    <a href="" class="btn">立即抢购</a>
+                </div>
+                <a href="#">
+                    <img src="http://img10.360buyimg.com/N3/jfs/t1360/330/897475737/123557/23624706/55b05e25N13d4ec5e.jpg" alt="">
+                    <div class="prod-name">千足金和田玉</div>
+                    <div class="prod-price">￥998</div>
+                </a>
+            </li>
+
+            <li class="prod">
+                <div class="cover">
+                    <a href="" class="btn">立即抢购</a>
+                </div>
+                <a href="#">
+                    <img src="http://img10.360buyimg.com/N3/jfs/t1360/330/897475737/123557/23624706/55b05e25N13d4ec5e.jpg" alt="">
+                    <div class="prod-name">千足金和田玉</div>
+                    <div class="prod-price">￥998</div>
+                </a>
+            </li>
+
+            <li class="prod">
+                <div class="cover">
+                    <a href="" class="btn">立即抢购</a>
+                </div>
+                <a href="#">
+                    <img src="http://img10.360buyimg.com/N3/jfs/t1360/330/897475737/123557/23624706/55b05e25N13d4ec5e.jpg" alt="">
+                    <div class="prod-name">千足金和田玉</div>
+                    <div class="prod-price">￥998</div>
+                </a>
+            </li>
+
+            <li class="prod">
+                <div class="cover">
+                    <a href="" class="btn">立即抢购</a>
+                </div>
+                <a href="#">
+                    <img src="http://img10.360buyimg.com/N3/jfs/t1360/330/897475737/123557/23624706/55b05e25N13d4ec5e.jpg" alt="">
+                    <div class="prod-name">千足金和田玉</div>
+                    <div class="prod-price">￥998</div>
+                </a>
+            </li>
+        </ul>
+
+        <a href="#" class="btn btn-add">Add</a>
+    </div>
+
+
+    <script>
+        var products = [
+            {
+                img: 'http://img10.360buyimg.com/N3/jfs/t2242/92/1446546284/374195/9196ac66/56af0958N1a723458.jpg',
+                name: '珂兰 黄金手 猴哥款',
+                price: '￥405.00'
+            }, {
+                img: 'http://img10.360buyimg.com/N3/jfs/t2242/92/1446546284/374195/9196ac66/56af0958N1a723458.jpg',
+                name: '珂兰 黄金转运珠 猴哥款',
+                price: '￥100.00'
+            }, {
+                img: 'http://img10.360buyimg.com/N3/jfs/t2242/92/1446546284/374195/9196ac66/56af0958N1a723458.jpg',
+                name: '珂兰 黄金手链 3D猴哥款',
+                price: '￥45.00'
+            }
+        ];
+
+        function getProdHtml(prod) {
+            var html = '';
+            html += '<li class="prod">';
+            html +=     '<div class="cover"><a class="btn" href="">立即抢购</a></div>';
+            html +=         '<a href=#>';
+            html +=            '<img src="'+prod.img+'" alt="">';
+            html +=                 '<div class="prod-name">'+prod.name+'</div>';
+            html +=                 '<div class="prod-price">'+prod.price+'</div>';
+            html +=         '</a>';
+            html += '</li>';
+            return html;
+        };
+
+        $('.btn-add').on('click', function(event) {
+            event.preventDefault();  //默认事件行为将不再触发
+            $.each(products, function(index, prod){
+                var html = getProdHtml(prod);
+                $('.prod-ct').append(html);
+            });
+        });
+
+        $('.prod-ct').on('mouseenter', '.prod', function(event){
+            $(this).addClass('hover');
+        });
+        $('.prod-ct').on('mouseleave', '.prod', function(event){
+            $(this).removeClass('hover');
+        });
+    </script>
+</body>
+
+</html>

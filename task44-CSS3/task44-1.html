@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>背景色渐变</title>
+    <style>
+        .cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* background: url('bgimage.gif') center center no-repeat; */
+            background-size: cover;
+            background-color: rgb(255, 81, 0);
+        }
+        .cover::before {
+            display: block;
+            content: '';
+            width: 50%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(to bottom right, rgba(255,0,0,0), rgb(0,255,200));
+        }
+        .cover::after {
+            display: block;
+            content: '';
+            width: 50%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(to bottom left, rgba(255,0,0,0), rgb(174,787,61));
+        }
+    </style>
+</head>
+<body>
+    <div class="cover"></div>
+
+
+    <script>
+    </script>
+</body>
+</html>

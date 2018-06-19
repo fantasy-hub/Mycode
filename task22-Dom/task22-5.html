@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>模态框-22-5 25:00</title>
+    <style>
+        .modal-dialog {
+            display: none;
+        }
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #000;
+            opacity: 0.4;
+            z-index: 99;
+        }
+
+        .modal-ct {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);  /*这两行代码是让盒子居中*/
+            -webkit-transform: translate(-50%, -50%);
+            width: 400px;
+            border-radius: 5px;
+            background: #fff;
+            z-index: 100;
+        }
+
+        .header{
+            position: relative;
+            height: 36px;
+            line-height: 36px;
+            border-bottom: 1px solid #ccc;
+        }
+        h3{
+            margin: 0;
+            padding-left: 10px;
+            font-size: 16px;
+        }
+        .close {
+            position: absolute;  /*是绝对定位元素，父元素需要设置相对定位  不设置就相对于body定位了*/
+            right: 10px;
+            top: 10px;
+            line-height: 1;
+        }
+        
+        .centent {
+            padding: 10px;
+        }
+
+        .footer {
+            padding: 10px;
+            border-top: 1px solid #eee;
+            height: 18px;
+            line-height: 18px; 
+        }
+
+        .btn {
+            float: right;
+            margin-left: 10px;
+        }
+        .btn:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        /* .btn {
+            display: inling-block;
+            padding: 3px 6px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+        }  按钮样式 */
+    </style>
+</head>
+<body>
+    <div class="btn-group">
+        <button id="btn-modal">Click</button>
+    </div>
+
+    <div id="modal-1" class="modal-dialog">
+        <div class="cover"></div>
+
+        <div class="modal-ct">
+            <div class="header">
+                <h3>标题</h3>
+                <a href="#" class="close">x</a>
+            </div>
+            <div class="content" style="padding: 0 10px">
+                <p>内容</p>
+                <p>内容</p>
+            </div>
+            <div class="footer">
+                <a href="#" class="btn btn-confirm">确定</a>
+                <a href="#" class="btn btn-cancel">取消</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        var Btn = document.querySelector('#btn-modal'),
+            modal = document.querySelector('#modal-1'),
+            modalCt = document.querySelector('.modal-ct');
+        Btn.addEventListener('click', function(e){
+            e.stopPropagation();  //阻止冒泡
+            showModal(modal);
+        });
+        modalCt.addEventListener('click', function(e){
+            e.stopPropagation();
+            if (hasClass(e.target, 'close') || hasClass(e.target, 'btn-cancel')){
+                hideModal(modal);
+            }
+        });
+        document.body.addEventListener('click', function(){
+            hideModal(modal);
+        });
+        
+        function showModal(modal){
+            modal.style.display = 'block';
+        }
+        function hideModal(modal){
+            modal.style.display = 'none';
+        }
+        function hasClass(ele, cls){
+            return !!ele.className.match(new RegExp('\\b'+cls+'\\b'));
+        }
+    </script>
+</body>
+</html>

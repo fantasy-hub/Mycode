@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>无限轮播</title>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <style>
+        ul, li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+        }
+
+        .carousel {
+            position: relative;
+            width: 320px;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .carousel .img-ct {
+            position: absolute;
+            overflow: hidden;
+        }
+        .carousel .img-ct li {
+            float: left;
+        }
+        .carousel .img-ct:after{
+            display: block;
+            content: '';
+            clear: both;
+        }
+        .carousel .img-ct img {
+            width: 320px;
+            height: 180px;
+        }
+
+        .carousel .arrow {
+            position: absolute;
+            top: 50%;
+            margin-top: -15px;
+            width: 30px;
+            height: 30px;
+            line-height: 27px;
+            border-radius: 30px;
+            border: 1px solid #fff;
+            color: #fff;
+            text-align: center;
+        }
+        .carousel .arrow:hover {
+            opacity: 0.8;
+        }
+        .carousel .pre {
+            left: 10px;
+        }
+        .carousel .next {
+            right: 10px;
+        }
+
+        .carousel .bullet {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .carousel .bullet li {
+            display: inline-block;
+            width: 16px;
+            height: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .carousel .bullet li.active {
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+	<div class="carousel">
+        <ul class="img-ct">
+            <li data-id=0><a href="#"><img src="http://cdn.jirengu.com/book.jirengu.com/img/2.jpg"></a></li>
+            <li data-id=1><a href="#"><img src="http://cdn.jirengu.com/book.jirengu.com/img/3.jpg"></a></li>
+            <li data-id=2><a href="#"><img src="http://cdn.jirengu.com/book.jirengu.com/img/4.jpg"></a></li>
+             <li data-id=3><a href="#"><img src="http://cdn.jirengu.com/book.jirengu.com/img/5.jpg"></a></li>
+        </ul>
+        <a class="pre arrow" href="#"><</a>
+        <a class="next arrow" href="#">></a>
+        <ul class="bullet">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+        
+
+    <script>
+        $(function(){
+            var $ct = $('.img-ct'),
+                $items = $ct.children(),
+                $pre = $('.pre'),
+                $next = $('.next'),
+                $bullet = $('.bullet'),
+                imgCount = $items.size(),
+                imgWidth = $items.width();
+
+            $ct.prepend($items.last().clone());
+            $ct.append($items.first().clone());
+            $ct.width((imgCount+2)*imgWidth);
+            $ct.css({left: 0-imgWidth});
+
+            var curIdx = 0;
+            var isAnimate = false;
+            
+            $next.on('click', function(){
+                playNext();
+            });
+            $pre.on('click', function(){
+                playPre();
+            });
+            $bullet.find('li').on('click', function(){
+                var index = $(this).index();  //此index是跳转的位数
+                console.log(index);
+                if(index > curIdx){
+                    playNext(index - curIdx);
+                } else if (index < curIdx){
+                    playPre(curIdx - index);
+                }
+            });
+
+            function playNext(idx){  //此idx是跳转的步数  idx=|curidx-index|
+                // console.log(idx);
+                var idx = idx ? idx : 1;
+                // console.log(idx);
+                if(isAnimate) return;
+                isAnimate = true;
+                $ct.animate({left: '-='+imgWidth*idx}, function(){
+                    curIdx = curIdx + idx;  //curIdx += index;
+                    if(curIdx === imgCount){
+                        curIdx = 0;
+                        $ct.css({left: 0-imgWidth});
+                    }
+                    isAnimate = false;
+                    setBullet();
+                });
+            }
+            function playPre(idx){
+                var idx = idx ? idx : 1;
+                if(isAnimate) return;
+                isAnimate = true;
+                $ct.animate({left: '+='+imgWidth*idx}, function(){
+                    curIdx = curIdx - idx;
+                    if(curIdx < 0){
+                        curIdx = imgCount - 1;
+                        $ct.css({left: 0-imgCount*imgWidth});
+                    }
+                    isAnimate = false;
+                    setBullet();
+                });
+            }
+            function setBullet(){
+                $bullet.find('li').eq(curIdx)
+                                  .addClass('active')
+                                  .siblings()
+                                  .removeClass('active');
+            }
+        });
+    </script>
+</body>
+</html>

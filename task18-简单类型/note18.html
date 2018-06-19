@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>note-18</title>
+</head>
+
+<body>
+    <script>
+        //创建数组
+        var a1 = new Array();
+        /*
+        利用typeof判定。
+        Array - 函数（也是全局变量）
+        new Array - 对象
+        通过定义一个对象，得到一个数组
+        typeof a - 判断a的数据类型
+        a instanceof Array 得到结果：true。 - 判断对象a是不是函数Array所创造的实例
+        （）括号内一个参数 识别为数组的长度：a1.length ; （）括号内多个参数 识别为参数
+        */
+        //字面量定义数组 - 字面量较常用
+        //对象：满足有属性和对应的值
+        var a = [];
+        /*
+        添加数组：a[100] = 10; 数组a的长度定义为100，从0开始则有101个数字，第101个数字是10 
+        删除数组：delete a[] 删除对象的属性
+        a1.length - 是对象的默认属性
+        */
+
+        //数组的索引与长度
+        var arr = [2, 4, 1, 5, 7];
+        for (var i = 0; i < arr.length; i++) {  //用for循环遍历数组
+            console.log(arr[i]);
+        }
+        for (var j = arr.length - 1; j >= 0; j--) {
+            console.log(arr[j]);
+        }
+        //数组添加长度
+        arr[arr.length] = 10; //同下
+        arr.push(10);
+        //数组减少长度
+        arr.pop();
+        //push和pop，从队尾后进先出
+        arr.shift(); //移除第一位
+        arr.unshift(10); //把10移到第一位
+
+        //splice 参数1下标的开始，参数2删除的个数，参数3添加的元素
+        //删除
+        var a = new Array(1, 2, 3, 4, 5);
+        console.log(a.splice(1, 3)); //从第1位开始删除3个[2,3,4]
+        console.log(a.length); //2
+        console.log(a); //[1,5]
+
+        function pop(arr) {
+            return arr.splice(arr.length - 1, 1)[0];
+        }
+        function push(arr, val) {
+            arr.splice(arr.length, 0, val);
+            return arr.length;
+        }
+        function shift(arr) {
+            return arr.splice(0, 1)[0];
+        }
+
+        //join 将数组内的内容转换成字符串
+        arr.join('')
+        arr.join('-')
+
+        var scores = [100, 99, 69, 70];
+        var htmls = [];
+        htmls.push('<div class="ct">');
+        for (var i = 0; i < scores.length - 1; i++) {
+            htmls.push('<div class="box">' + scores[i] + '</div>');
+        }
+        htmls.push('</div>');
+        console.log(htmls.join(''));
+
+        //sort 排序
+        var arr2 = [1, 100, 2, 31, 256];
+        arr2.sort(function (a, b) {
+            console.log(a, b);
+            return a - b;
+        }); //a-b>0 返回true，没有a-b时按字符串大小排序
+
+        //字符串
+        //1.长度计算, 连接
+        var str = "hello";
+        console.log(str.length);
+        console.log(str[0]);
+        console.log(str[str.length - 1]);
+        console.log(str.charAt(0));
+        console.log(str.charCodeAt(0));        
+        var str2 = " world";
+        var str3 = str1 + str2;
+        cosnole.log(str3);
+        //2. 字符串截取
+        var str = "hello world";
+        var sub1 = str.subStr(1, 3); // 第一个是开始位置， 第二个是长度  ell
+        var sub2 = str.subString(1, 3); // 第一个是开始位置，第二个是结束位置，长度为第二个－第一个  el
+        var sub3 = str.slice(1, 3); // 同上 允许负参
+        //3. 查找
+        var str = "hello my world";
+        var s1 = str.search('my');   //6 找不到为-1
+        var s2 = str.replace('my', 'your'); //
+        var s3 = str.match('my'); //返回匹配的数组
+        //4. 大小写
+        var str = "Hello";
+        str.toUpperCase();
+        str.toLowerCase();
+        //字符串——拆分、排序、合并
+        var str = "hello my name is hunger valley";
+        var after = str.split(' ').sort().join(' ');
+        console.log(after);
+        var after2 = str.split('').reverse().join('');
+        console.log(after2);
+
+        //ES5数组扩展
+        //判断数组 - Array函数
+        var arr =[];
+        Array.isArray(arr); //true
+        //同
+        typeof arr //object
+        arr instanceof Array //true
+        //同
+        function isArray(arr){
+            return Array.isArray? Array.isArray(arr) : (typeof arr==="ojbect")&&(arr instanceof Array)
+        }
+        //遍历数组取最大值
+        var arr = [3,1,7,3,2,90];
+        var min = arr[0];
+        for(var i=0; i<arr.length; i++){
+            if(min < arr[i]){
+                min = arr[i];
+            }
+        }
+        console.log(min); //90
+        //同
+        Math.max.apply(null,arr) //90  null(空对象)是在一个作用域下，把arr作为参数
+        //对一个数组进行排序
+        [].sort.call(arguments) //通过[].sort得到数组的方法，方法的对象是arguments
+        
+        //随机字符串(验证码)
+        function randStr(n){
+            var str = '0123456789qwertyuiopASDFGHJKL';
+            var result = '';
+            for(var i=0; i<n; i++){ //n传入实际参数6，即循环6次，从0开始循环
+                result += srt[Math.floor(Math.random()*str.length)]; //随机数是为了生成索引值，索引生命中的字符
+            }
+            return result;
+        }
+        var str = randStr(6);
+        /*
+        str = 'abc'  那 str[1]  就是 b
+        str[0]   a   
+        str[1]   b
+        str[2]   c
+        str[0]  a   就是用来索引 str里面某一个位置的字符
+        所以中括号里的是索引,就是中括号里面，算了个随机数当作索引
+        从里往外看  Math.random() * str.length 会生成一个范围是 0 ~ str.length 的随机数
+        然后 Math.floor 将这个随机数取整  就是索引值了
+        Math.random * str.length 生成了一段随机数   这个数就是索引,只是不是整数，需要 Math.floor取整
+        Math.random() * 3   能生成一个0 ~ 3的随机数，假如就生成了  2.5678899
+        这时候用 Math.floor(2.5678899) 得到 2
+        所以 
+        str[Math.floor(Math.random() * str.length)] 就变成了  str[2]
+        math.floor向左取证;math.ceil向右取证;math.round四舍五入
+        math.random 取0<=x<1的数
+        */
+
+        var prod = {
+            name: '女装',
+            style: ['短款', '冬季', '春装']
+        }; //data是对象，style是数组；data.style是对象里一个叫style的属性，这个属性的值是数组
+            //obj = {name: '赵力群'}  obj.name就是 赵力群
+        function getTplStr(data) {
+            data.style.unshift(data.name);
+            var arr1 = data.style;
+            var arr2 = [];
+            arr2[0] = '<dl class="product">';
+            arr2[1] = '\t' + '<dt>' + arr1[0] + '</dt>';
+            for (var i = 0; i < arr1.length; i++) {
+                arr2[i + 2] = '\t' + '<dd>' + arr1[i + 1] + '</dd>';
+            }
+            arr2[arr2.length - 1] = '</dl>';
+            console.log(arr2.join("\n"));
+        }
+        var result = getTplStr(prod);
+        console.log(result);
+    </script>
+</body>
+
+</html>

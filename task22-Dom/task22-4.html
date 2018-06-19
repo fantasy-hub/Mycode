@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tab切换-22视频5 44分</title>
+    <style>
+        .mod-tab {
+            border: 1px solid #ccc;
+        }
+        .mod-tab * {
+            box-sizing: border-box;
+        }   /*没有这行代码三个li不能实现同行排列*/
+        .mod-tab ul,
+        .mod-tab li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .mod-tab .tabs:after {
+            content: '';
+            height: 0;
+            display: block;
+            clear: both;
+        }   /*清除ul内部li元素浮动*/
+        .mod-tab .tabs li {
+            float: left;
+            width: 33.3%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+        }
+        .mod-tab .tabs li:last-child {
+            border-right: none;
+        }   /*去掉第三个li的双边框*/
+
+        .mod-tab .tabs .active {
+            background: #eee;
+        }
+
+        /*只展示第一个div的内容*/
+        .mod-tab .panel {
+            display: none;
+            height: 180px;
+            padding: 20px;
+        }
+        .mod-tab .panel.active {
+            display: block; 
+        }
+    </style>
+</head>
+<body>
+    <div class="mod-tab">
+        <ul class="tabs ">
+            <li class="active">tab1</li>
+            <li>tab2</li>
+            <li>tab3</li>
+        </ul>
+        <div class="panel active">内容1</div>
+        <div class="panel">内容2</div>
+        <div class="panel">内容3</div>
+    </div>
+    <script>
+        var Utils = {
+            hasClass: function(ele, cls){
+                return !!ele.className.match(new RegExp('\\b' + cls + '\\b'));
+            },  //这个函数叫做hasClass,目的就是要判断元素是不是有某个class名,所以用到了一个字符串方法叫做match,match里面需要用到正则去匹配这个class名字 有的话返回true 没有返回false,括号里的那部分整个是匹配这种模式的class名,不是说有单词边界而是说刑如 a cls b这种
+                //说成中文就是：写个函数，功能是判断一个元素里是不是含有某个class名称,用match正则匹配,找到cls   这个cls不能随便一个都行  比如说  123cls  这个class名虽然含有cls但是不是我们想要的,所以要特殊判断 用正则,123cls 这里的cls左边不是单词边界利用这点，就写个正则：如果一个cls两边是单词边界那就返回true 如果没有cls 或者两边不是单词边界，就返回false。找到形如 \b + cls + \b 的这个cls 有的话返回true  没有返回false
+            addClass: function(ele, cls){
+                if (ele.length && ele.length>0){  //长度大于0证明是一个html数组
+                    for(var i=0; i<ele.length; i++){
+                        Utils.singleAddClass(ele[i], cls);  //分别对数组的元素去添加
+                    }
+                } else {  //否则就是一个元素
+                    Utils.singleAddClass(ele, cls);  //直接对这一个元素添加
+                }
+            },
+            removeClass: function(ele, cls){
+                if (ele.length && ele.length>0){
+                    for (var i=0; i<ele.length; i++){
+                        Utils.singleRemoveClass(ele[i], cls);
+                    }
+                } else {
+                    Utils.singleRemoveClass(ele, cls);
+                }
+            },
+            singleAddClass: function(ele, cls){
+                if (Utils.hasClass(ele, cls)){
+                    return;
+                } else {
+                    ele.className += ' ' + cls;  //' '中间有空格，因为正则表达式用到了/'\\b' + cls + '\\b'/(xx cls xx)的搜索方法
+                }
+            },
+            singleRemoveClass: function(ele, cls){
+                ele.className = ele.className.replace(new RegExp('\\b'+cls+'\\b', ''));
+            },
+            indexOf: function(ele){  //对于一个元素知道它是第几个元素
+                var parent = ele.parentElement,  //获取到他的父元素
+                    siblings = parent.children;  //得到他所有的孩子
+                    for (var i=0; i<siblings.length; i++){
+                        if(ele === siblings[i]) return i;  //如果自己等于父元素的第几个孩子，就把自己的序号拿出来
+                    }
+                    return -1;  //否则等于-1，表示没找到
+                }
+            };
+        var tabCt = document.querySelector('.tabs');  //给父元素绑定事件，点击某个元素时事件会跑到父元素身上 
+        tabCt.addEventListener('click', function(e){
+            var target = e.target,  //得到点击的对象
+                tabs = tabCt.children,  //
+                index = Utils.indexOf(target),  //计算出点击的是第几个元素
+                panels = document.querySelectorAll('.panel');
+                if (index > -1){  //如果index>-1表示如果数字是存在的话。点谁给谁的class加active，同时去掉上一次被点击对象田间的active
+                    Utils.removeClass(tabs, 'active');  //去掉tabs上的所有avitve
+                    Utils.addClass(target, 'active');  //把目标元素(点击的对象)上绑定class=active
+                    Utils.removeClass(panels, 'active');
+                    Utils.addClass(panels[index], 'active');  //把panels对应的(index)元素添加active
+                }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>stickup</title>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <style>
+        #header {
+            background-color: red;
+            height: 80px;
+            line-height: 80px;
+            text-align: center;
+        }
+        #nav {
+            margin-top: 20px;
+            height: 40px;
+            background: blue;
+        }
+        #content {
+            min-height: 800px;
+            background: #ccc;
+            padding: 10px;
+            overflow: hidden;  /*形成独立的块级格式化上下文，内部布局仅在内部产生影响*/
+        }
+        #content .aside {
+            float: left;
+            width: 100px;
+            min-height: 400px;
+            background:green;
+        }
+        #content .main {
+            background: #fff;
+            padding-left: 20px;
+            min-height: 800px;
+            overflow: hidden;  /*形成独立的块级格式化上下文，内部布局仅在内部产生影响*/
+        }
+        #footer {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">header</div>
+    <div id="nav">nav</div>
+    <div id="content">
+        <div class="aside">aside</div>
+        <div class="main">main</div>
+    </div>
+    <div id="footer">footer</div>
+
+
+    <script>
+        var nav = $('#nav'),
+            navH = nav.height(),
+            navW = nav.width();
+            offsetTop = nav.offset().top,  //.offset()方法允许我们检索一个元素相对于文档（document）的当前位置。
+            offsetLeft = nav.offset().left;
+        
+        //把目标元素克隆一个用于占位，否则目标元素Position变为fix后脱离文档流，导致页面跳动
+        var navClone = nav.clone()
+                                  .css({visibility: 'hidden', display: 'none'})
+                                  .insertBefore(nav);
+
+        $(window).on('scroll', function(){
+            var scrollTop = $(this).scrollTop();
+            if(scrollTop >= offsetTop){
+                if(!isFixed()){  //如果没被固定
+                    setFixed();  //执行固定
+                }
+            } else {
+                if(isFixed()){
+                    unsetFixed();
+                }
+            }
+        });
+
+        //判断固定
+        function isFixed(){
+            return nav.data('data-fixed');  //返回nav标签的数据存储上的data-fixed属性
+        }
+        //设置固定
+        function setFixed(){
+            //在nav标签的数据存储上保存属性data-fixed值true。如<div id='nav' data-fixed='true'>；同时设置固定时的css
+            nav.data('data-fixed', true).css({
+                'position': 'fixed',
+                'top': 0,
+                'left': offsetLeft,
+                'width': navW,
+                'margin': 0,
+                'z-index': 100
+            });
+            navClone.show();  //展示克隆的nav
+        }
+        //取消固定
+        function unsetFixed(){
+            nav.data('data-fixed', false).removeAttr('style');  //重点注意.removeAttr('style') 对应setFixed函数中的css样式
+            navClone.hide();
+        }
+
+        /*
+        方法核心：
+        1.克隆一个nav导航条，用于占位
+        2.将原导航条用于固定定位，固定定位时展示出用于占位的克隆导航条
+        3.取消固定时，隐藏用于占位的克隆导航条
+        */
+    </script>
+</body>
+</html>

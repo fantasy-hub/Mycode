@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>test-16</title>
+</head>
+<body>
+    <script>
+    //遍历数组，把数组里面的变量arr-i，打印数组每一项的平方
+        var arr = [3,4,5];
+        for(var i = 0; i < arr.length; i++) {
+            console.log(arr[i] * arr[i]);
+        }
+    
+    //遍历JSON，打印里面的值
+        var obj = {
+            name: 'hunger',
+            sex: 'maile',
+            age: '28'
+        }
+        for(var a in obj) {
+            console.log(a + ':' + obj[a])  //这里面这些符号是什么意思？
+        }  //todo ...
+        //输出 name: hunger, sex: male, age: 28
+    </script>
+</body>
+</html>

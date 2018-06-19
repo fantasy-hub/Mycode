@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>导航条</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+    <style>
+        body,
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul,
+        li {
+            list-style: none;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .nav {
+            box-sizing: border-box;
+        }
+
+        .nav-aside {
+            background-color: #c7171e;
+            width: 150px;
+            /* padding: 0 10px; */
+        }
+
+        .nav-aside .category {
+            position: relative;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px dotted #de272e;
+        }
+
+        .nav-aside .cate-title {
+            display: bolck;
+            color: #fff;
+            font-size: 14px;
+            margin: 0 10px;
+            padding: 10px;
+        }
+
+        .nav-aside .five {
+            border-bottom: none;
+        }
+
+        .nav-aside .icon-goto {
+            color: #fff;
+            font-size: 16px;
+            float: right;
+            margin-right: 25px;
+        }
+
+        .nav-aside .category:after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+
+        .nav-aside .child-panel {
+            position: absolute;
+            top: 0;
+            left: 150px;
+            background: #fff;
+            border: 1px solid #ccc;
+            width: 200px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .nav-aside .category.hover .child-panel {
+            display: block;
+        }
+
+        .child-panel li {
+            width: 96px;
+            float: left;
+            padding: 15px 2px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav">
+        <ul class="nav-aside">
+            <li class="category">
+                <a href="#" class="cate-title">连载新番</a>
+                <span class="icon-goto">></span>
+                <ul class="child-panel">
+                    <li>
+                        <a href="#">黑色四叶草</a>
+                    </li>
+                    <li>
+                        <a href="#">飙速宅男</a>
+                    </li>
+                    <li>
+                        <a href="#">齐木楠雄的灾难</a>
+                    </li>
+                    <li>
+                        <a href="#">牙斗兽娘</a>
+                    </li>
+                    <li>
+                        <a href="#">七大罪</a>
+                    </li>
+                    <li>
+                        <a href="#">刻刻</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="category">
+                <a href="#" class="cate-title">季度完结</a>
+                <span class="icon-goto">></span>
+                <ul class="child-panel">
+                    <li>
+                        <a href="#">素晴</a>
+                    </li>
+                    <li>
+                        <a href="#">犬屋敷</a>
+                    </li>
+                    <li>
+                        <a href="#">暗杀教室</a>
+                    </li>
+                    <li>
+                        <a href="#">调教咖啡厅</a>
+                    </li>
+                    <li>
+                        <a href="#">食戟之灵</a>
+                    </li>
+                    <li>
+                        <a href="#">宝石之国</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="category">
+                <a href="#" class="cate-title">新番时间表</a>
+                <span class="icon-goto">></span>
+                <ul class="child-panel">
+                    <li>
+                        <a href="#">星期一</a>
+                    </li>
+                    <li>
+                        <a href="#">星期二</a>
+                    </li>
+                    <li>
+                        <a href="#">星期三</a>
+                    </li>
+                    <li>
+                        <a href="#">星期四</a>
+                    </li>
+                    <li>
+                        <a href="#">星期五</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="category">
+                <a href="#" class="cate-title">资讯</a>
+                <span class="icon-goto">></span>
+                <ul class="child-panel">
+                    <li>
+                        <a href="#">剧场启动计划</a>
+                    </li>
+                    <li>
+                        <a href="#">特报</a>
+                    </li>
+                    <li>
+                        <a href="#">pv</a>
+                    </li>
+                    <li>
+                        <a href="#">告知映像</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="category five">
+                <a href="#" class="cate-title">官方延伸</a>
+                <span class="icon-goto">></span>
+                <ul class="child-panel">
+                    <li>
+                        <a href="#">ED官方演唱会</a>
+                    </li>
+                    <li>
+                        <a href="#">OP官方演唱会</a>
+                    </li>
+                    <li>
+                        <a href="#">新番发布会</a>
+                    </li>
+                    <li>
+                        <a href="#">声优采访</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <script>
+        $(function () {
+            $('.nav-aside .category').on('mouseenter', function () {
+                $(this).addClass('hover');
+                // 或者
+                // $(this).find('.child-panel').show();
+                // 或者
+                // $(this).find('.child-panel').css('display', 'block');
+            });
+            $('.nav-aside .category').on('mouseleave', function () {
+                $(this).removeClass('hover');
+                // 或者
+                // $(this).find('.child-panel').hide();
+                // 或者
+                // $(this).find('.child-panel').css('display', 'none');
+            });
+        });
+    </script>
+</body>
+
+</html>

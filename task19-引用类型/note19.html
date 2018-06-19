@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>nont-19</title>
+</head>
+<body>
+    <script>
+        //基础类型：基础类型（数值，字符串，布尔值，null，undefined）是保存在栈内存中的简单数据段，内存容量有限，只能保存简单数据;
+        //复杂类型：复杂类型（对象，函数，数组，正则）保存在堆内存中的对象，变量保存的是指针，指向内存中的另一个位置，该位置保存着对象。
+        //特征：基础类型是按照值来进行赋值的，而复杂类型是按照指针来赋值的，所以复杂类型赋值之后，两个变量指向同一个对象，对象改变的话，两个变量都会改变，而基础类型不会这样。
+        
+        //一个对象前面有+号，返回值会自动转换为数字
+        //日期对象——Date
+        //Date的静态方法
+        //Date.now() 执行一段代码需要的时间
+        var t1 = Date.now();
+        for(var i=0; i<10000; i++){
+            console.log(1);
+        }
+        var t2 = Date.now();
+        console.log(t2-t1); //计算执行t1的时间差
+        //Date.parse() 把字符串转换成时间对象 到达1979年1月1日00:00:00的毫秒数
+        //Date.UTC() 默认情况下，Date对象返回的当前时区的时间
+
+        //Date的应用实例
+        //Date Date函数可以直接调用，返回一个当前日期和时间的字符串，这时是否有参数结果一样
+        //new Date() 使用Date构造函数创建一个Date的实例：new Date();
+        var d = new Date(); //d是真正的时间对象
+        d.getDate //get得到时间，在构造函数d上绑定的属性
+        //标准获取时间方法new Date().getTime()  简便方法Date.now()
+        d.setFullYear(2017)  //set设置时间
+        /*时间对象自身有toString的方法 改写toString的方法
+        d.string=function(){console.log(100)}*/
+        /*计算多少年前的毫秒 d.getTime()等于d.now()
+        var d2 = new Date(d.getTime()-365*24*60*60*1000)
+        打印d2返回 Mon Jan 16 2006 21:07:04 GMT+0800(CST) 2016年1月16日*/
+
+        //JSON JSON语法是js对象表示语法的子集——一种数据交换格式
+        var str = '{
+            "name":"hunger"
+        }'
+        JSON.parse(str) 
+        //Object {name:"hunger"} 把字符串转换为JSON对象
+        var obj = JSON.parse(str)
+        JSON.stringify(obj)
+        //"{"name":"hunger"}" 把JSON对象转换为字符串
+        //eval 把字符串转为JSON
+        var json = eval('(' + json_str + ')');
+        json // Object {name: "byron", age:24}
+
+        //基本类型值（数值、布尔值、null和undefined）：指的是保存在栈内存中的简单数据段；(相当于指向暂存区)
+        //引用类型值（对象、数组、函数、正则）：指的是那些保存在堆内存中的对象，变量中保存的实际上只是一个指针，这个指针执行内存中的另一个位置，由该位置保存对象(相当于指向路径)
+        function add(num){
+            //var num= count;
+            num += 10;
+            return num;
+        }
+        var count = 20;
+        var result = add(count);
+        console.log(count);
+        console.log(result);
+
+        function modifyObj(obj){ //var obj = obj1;
+            obj.age = 100;
+        }
+        var obj1 = {
+            name: 'hunger',
+            age: 10
+        };
+        modifyObj(obj1); //var obj = obj1;
+        console.log(obj1);
+
+        function modifyArr(arr){ //var arr = arr; 第一个arr是临时参数，第二个arr是传递进来的实际参数
+            arr.push(1);
+        }
+        var arr = [1, 2, 3];
+        modifyArr(arr); //[1, 2, 3, 1]
+        
+        var arr2 = [2, 4, 6];
+        function arrSqure1(arr){
+            //var arr = arr2;
+            for(var i=0; i<arr.length; i++){
+                arr[i] = arr[i] * arr[i];
+            }
+        } //改变原数组
+
+        function arrSqure2(arr){
+            var arrtmp = [];
+            for(var i=0; i<arr.length; i++){
+                arrtmp[i] = arr[i] * arr[i];
+            }
+            return arrtmp;
+        } //不改变原数组，生成一个新的数组
+
+        //对象浅拷贝
+        var obj5 = {
+            name: 'hunger',
+            age: 100,
+            sex: 'man'
+        };
+        function objCopy(obj){
+            var newObj = {}; //开辟了一个新的空间
+            for(var key in obj){ //for...in语句循环遍历数组
+                newObj[key] = obj[key];
+            }
+            return newObj;
+        }
+        var newObj = objCopy(obj5);
+        obj5.name = 'bbb'; //相当于指向了一个新的空间
+        console.log(newObj); //name还是hunger
+
+        //对象深拷贝
+        var obj6 = {
+            name: 'hunger',
+            age: 100,
+            sex: {
+                name: 'valley'
+            }
+        }
+        function objCopy(obj){
+            var newOjb = {};
+            for(var key in obj){
+                if(obj[key] === 对象){ //如果参数里某一项也是对象
+                    newObj[key] = objCopy(obj[key]); //就执行深拷贝把值赋给newObj[key]
+                }else{
+                    newObj[key] = obj[key]; //否则直接把值拿过来使用
+                }
+                return newObj;
+            }
+
+        var obj6 = {
+            name: 'hunger',
+            age: 100,
+            sex: {
+                name: 'valley'
+            }
+        }
+        function objCopy(obj){
+            var newObj = {};
+            for(var key in obj){ //for...in语句循环遍历数组
+                if(obj[key] instanceof Object){ //如果参数里某一项也是对象，用instanceof；否则typeof即可解决
+                    newObj[key] = objCopy(obj[key]); // 自己调用自己，学名：递归
+                }else{
+                    newObj[key] = obj[key]; //否则直接把值拿过来使用
+                }
+                return newObj;
+            }
+        }           
+    </script>
+</body>
+</html>

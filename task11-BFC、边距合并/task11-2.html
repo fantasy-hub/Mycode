@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #header,#footer {
+            height: 40px;
+            background: #ccc;
+        }
+        .aside {
+            background: blue;
+            width: 200px;
+            height: 900px;
+            float: left;
+            opacity: 0.2;
+        }
+        .main {
+            background: pink;
+            padding-left: 10px;
+            overflow: auto; 
+        }
+        #content:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <div id="header"></div>
+    <div id="content">
+        <div class="aside"></div>
+        <div class="main">我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main 我是main </div>
+    </div>
+    <div id="footer"></div>
+</body>
+</html>

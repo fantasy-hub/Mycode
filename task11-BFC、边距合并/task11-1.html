@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Task11-导航条</title>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    li {
+      list-style: none;
+    }
+    .nav {
+      background: #eee;
+      padding: 0 5px;
+      height: 40px;
+      line-height: 40px;
+    }
+    .nav > li {
+      float: left;
+      position: relative;
+      padding: 0 10px;
+    }
+    .nav:after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+    .nav > li:hover {
+      background: #aaa;
+    }
+
+    .nav > li .child {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      display: none;
+      border: 1px solid #ccc;
+    }
+    .nav > li:hover .child {  /*当鼠标悬停在nav的子元素li上时,触发chlid类选择器*/
+      display: block;
+      padding: 0 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="header">
+    <ul class="nav">
+      <li>
+        <a href="">前端</a>
+        <ul class="child">
+          <li>javascript</li>
+          <li>css</li>
+          <li>html</li>
+        </ul>
+      </li>
+      <li>
+        <a href="">服务端</a>
+        <ul class="child">
+          <li>node</li>
+          <li>php</li>
+          <li>ava</li>
+        </ul>
+      </li>
+      <li>
+        <a href="">前段工具</a>
+        <ul class="child">
+          <li>sublime</li>
+          <li>vscode</li>
+          <li>git</li>
+        </ul>
+      </li>
+      <li><a href="">HTML</a></li>
+      <li><a href="">NODE</a></li>
+    </ul>
+  </div>
+</body>
+</html>

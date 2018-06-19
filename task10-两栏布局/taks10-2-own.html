@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            width:900px;
+            margin: 0 auto;
+            /* border: 2px solid yellow; */
+        }
+        .box::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        #header {
+            width: 100%;
+            height: 50px;
+            background-color: #333;
+        }
+        #header .box > a {
+            display: block;
+            float: left;
+            text-decoration: none;
+        }
+        img {
+            width: 160px;            
+        }
+        #header li {
+            display: block;
+            float: right;
+            line-height: 50px;
+            margin: 0 8px;
+            padding : 0 10px;
+            color: #fff;
+        }
+        #header li:nth-of-type(1) {
+            margin-right: 12px;
+        }
+        #header li:hover {
+            background-color: #fff;
+            color: #333;
+        }
+
+        #content {
+            width: 900px;
+            margin: 0 auto;
+        }
+        #content::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+        #content .siderbar {
+            width: 200px;
+            height: 500px;
+            background-color: #eee;
+            float: left;    
+        }
+        #content .main {
+            float: left;
+            margin-top: 20px;
+            color: #666;
+        }
+        #content .main h1 {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+        #content .main > h1 + p {
+            margin: 10px 0;
+        }
+
+        #footer {
+            background-color: #333;
+            width: 100;
+            height: 40px;
+        }
+        #footer li {
+            list-style: none;
+            display: block;
+            float: left;
+            margin: 0 15px;
+            line-height: 40px;
+        }
+        #footer a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 14px;
+        }
+    </style>        
+</head>
+<body>
+    <div id="header">
+        <div class="box">
+            <a href="http://www.jirengu.com/" target="_blank"><img src="http://cdn.jirengu.com/public/logo-tiny.png"></a>
+            <ul>
+                <li><span class="btn">关于</span></li>
+                <li><span class="btn">作品</span></li>
+                <li><span class="btn">经历</span></li>
+                <li><span class="btn">技能</span></li>
+            </ul>
+        </div>
+    </div>
+    <div id="content">
+        <div class="siderbar"></div>
+        <div class="main">
+            <h1>应用浮动</h1>
+            <p>在绝对定位，页面失去高度的情况下，本次尝试用浮动解决页面元素定位</p>
+            <p>借鉴他人代码，常识自己编辑</p>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="box">
+            <ul>
+                <li><a href="http://www.jirengu.com/" target="_blank">饥人谷</a></li>
+                <li><a href="http://jscode.me/" target="_blank">JSCODE</a></li>
+                <li><a href="http://js.jirengu.com/" target="_blank">JSBIN</a></li>
+            </ul>
+        </div>  
+    </div>
+</body>
+</html>

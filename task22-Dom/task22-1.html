@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 给元素绑定事件 -->
+    <ul class="ct">
+        <li>列表1</li>
+        <li>列表2</li>
+        <li>列表3</li>
+    </ul>
+    <script>
+        //方法1：利用for循环直接给元素绑定事件
+        var liArr = document.getElementsByClassName('ct')[0].getElementsByTagName('li');
+        console.log(liArr);
+        for (var i=0; i<liArr.length; i++){
+            liArr[i].addEventListener('click', function(){
+                console.log(this.innerText);
+            })
+        }
+        // //方法2：使用事件代理，把事件监听绑定到父容器上，根据事件的来源进行处理
+        // var ct = document.querySelector('.ct');
+        // ct.addEventListener('click', function(e){
+        //     console.log(e.target.innerText);
+        // })
+    </script>
+</body>
+</html>

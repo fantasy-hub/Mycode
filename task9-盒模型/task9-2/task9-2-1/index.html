@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "微软雅黑"；
+        }
+        .icon-1, .icon-2, .icon-3 {
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            text-align: right;
+            /* border: 1px solid orangered; */
+            padding-top: 4px;
+            cursor: pointer;
+        }
+        .icon-1 {
+            background: url(sprite.png) -4px -115px no-repeat; /*背景只能存在于元素的盒内，在水平方向和垂直方向重复。*/
+        }
+        .icon-1:hover {
+            background: url(sprite.png) -5px -4px no-repeat;
+            color: #9955FF;
+        }
+        .icon-2 {
+            background: url(sprite.png) -2px -148px no-repeat;
+        }
+        .icon-2:hover {
+            background: url(sprite.png) -7px -43px no-repeat;
+            color: #9955FF;
+        }
+        .icon-3 {
+            background: url(sprite.png) -6px -81px no-repeat;
+        }
+        .icon-3:hover {
+            background: url(sprite.png) -2px -181px no-repeat;
+            color: #9955FF;
+        }
+    </style>
+</head>
+<body>
+    <div class="icon-1">前进</div>
+    <div class="icon-2">开始</div>
+    <div class="icon-3">停止</div>
+</body>
+</html>

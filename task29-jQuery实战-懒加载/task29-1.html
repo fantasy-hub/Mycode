@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>回到顶部</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+        html,
+        body,
+        p,
+            {
+            box-sizing: border-box;
+        }
+
+        p {
+            height: 100px;
+            background: pink;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        #go-top{
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            border: 2px solid rgba(255, 0, 0, 0.548);
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+
+
+    <script>
+        //方法一：原始jquery使用方法
+        var $goTop = $('<div id="go-top">回到顶部</div>');
+        $('body').append($goTop);
+
+        $(window).on('scroll', function(){
+            var offsetTop = $(this).scrollTop();  //获取窗口当前垂直滚动条的位置
+            console.log(offsetTop);
+            if(offsetTop > 100){
+                $goTop.show();
+            } else {
+                $goTop.hide();
+            }
+        });
+
+        $goTop.on('click', function(){
+            $(window).scrollTop(0);
+        });
+
+        //方法二：把方法保存在对象中形成一个方法，调用时直接调用对象的方法
+        var GoTop = {
+            init: function(){
+                if($('#go-top').length > 0) return;  //判断元素是否存在，避免多次调用
+                var $goTop = $('<div id="go-top">回到顶部</div>');
+                $('body').append($goTop);
+                this.$goTop = $goTop;  //给对象GoTop增加一个属性名为$goTop的属性，值是$goTop(封装过的jquery对象)
+                this.bind();  //GoTop对象调用bind()方法
+            },
+            bind: function(){
+                var self = this;  //this指向GoTop对象
+                $(window).on('scroll', function(){
+                    var offsetTop = $(this).scrollTop();  //this指向window。因为on自身是方法，方法即函数，传递的参数是函数形成回调，构成闭包。此时作用域链的最外层是window，所以this指向window
+                    if(offsetTop > 100){
+                        self.$goTop.show();
+                    } else {
+                        self.$goTop.hide()
+                    }
+                });
+                this.$goTop.on('click', function(){
+                    $(window).scrollTop(0);
+                });
+            }
+        }
+        GoTop.init();
+        //方法三：用立即执行函数表达式实现封装
+        var  GoTop = (function(){
+            var $goTop = $('<div id="go-top">回到顶部</div>');
+            $('body').append($goTop);
+
+            function init(){
+                $(window).on('scroll', function(){
+                    var offsetTop = $(this).scrollTop();
+                    console.log(offsetTop);
+                    if(offsetTop > 100){
+                        $goTop.show();
+                    } else {
+                        $goTop.hide();
+                    }
+                });
+                $goTop.on('click', function(){
+                    $(window).scrollTop(0);
+                });
+            }
+            init();
+        })();
+    </script>
+</body>
+
+</html>

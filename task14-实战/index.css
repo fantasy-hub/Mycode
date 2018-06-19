@@ -1,0 +1,188 @@
+html, body, ul, li {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+}
+li {
+    list-style: none;
+}
+a {
+    text-decoration: none;
+}
+img {
+    width: 465px;
+    height: 310px;
+}
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-top: 1px solid #eee;
+    max-width: 100px;
+}
+.btn {
+    display: inline-block;
+    padding: 10px 35px;
+    background: rgba(0,0,0,0.4);
+    color: white;
+}
+.btn1 {
+    display: inline-block;
+    width: 95px;
+    line-height: 30px;
+    color: black;
+    background-color: white;
+    text-align: center;
+}
+.btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.btn1:hover {
+    background-color: #eee;
+}
+.wrap {
+    width: 960px;
+    margin: 0 auto;
+    padding: 430px 0;
+    text-align: center;
+}
+
+
+#header {
+    background: url("http://i4.piimg.com/567571/200cdfc9e45f761a.png") no-repeat;
+    background-size: cover;
+}
+#header .btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background: rgba(0,0,0,0.4);
+    color: white;
+}
+#header .btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+#header p {
+    margin-top: 30px;
+}
+
+
+#content .about {
+    width: 960px;
+    margin: 80px auto;
+    text-align: center;
+    font-size: 20px;
+}
+#content .about a {
+    color: #337ab7;
+}
+/*  */
+#content .skill {
+    background: #337ab7;
+    color: white;
+    font-size: 14px;
+}
+#content .skill .main {
+    width: 960px;
+    margin: 0 auto;
+    padding: 50px 0;
+    text-align: center;
+}
+#content .skill h2 {
+    font-size: 30px;
+}
+#content .details > li {
+    float: left;
+    width: 220px;
+    margin-right: 25px;
+}
+#content .details >li:nth-of-type(4) {
+    margin-right: 0px;
+}
+#content .details:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+/*  */
+#content .desc {
+    background: url("http://i4.piimg.com/567571/f42a0e88aa5581fe.jpg") no-repeat;
+    background-size: cover;
+    padding: 250px 0; /* 设置padding前图片尺寸没有撑开，设置后行框高度被撑开，背景图片有了高度 */
+    color: white;
+}
+#content .desc .about {
+    font-size: 3em;
+}
+/*  */
+#content .hello {
+    padding: 50px 0;
+}
+#content .hello .ps {
+    width: 960px;
+    margin: 0 auto;
+    text-align: center;
+}
+#content .photo > li {
+    float: left;
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+#content .photo > li:nth-of-type(1) {
+    margin-left: 0;
+}
+#content .photo > li:nth-of-type(3) {
+    margin-left: 0;
+}
+#content .photo:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+/*  */
+#content .tail {
+    padding: 50px 0;
+    background-color: #337ab7;
+}
+#content .pag {
+    width: 960px;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+}
+#content .pag > a {
+    width: 80px;
+    margin-top: 20px;
+}
+#content .pag > a:nth-of-type(1) {
+    color: black;
+    background-color: white;
+}
+#content .pag > a:nth-of-type(1):hover {
+    background: #ccc;
+}
+
+
+#footer .wrap {
+    padding: 100px 0;
+}
+#footer a {
+    color: #337ab7;
+}
+#footer .con:hover {
+    text-decoration: underline;
+}
+#footer ul {
+    width: 175px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+#footer li {
+    display: block;
+    float: left;
+    margin-right: 20px;
+}
+#footer li:nth-of-type(3) {
+    margin-right: 0;
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>note-17</title>
+</head>
+
+<body>
+    <script>
+        //function函数的应用
+        function getInfo(name, age, sex) {
+            console.log('name:', name); //黄色name是本行要打印的内容；白色name是参数，对应函数（）括号中的变量
+            console.log('age:', age);
+            console.log('sex:', sex);
+        }
+        getInfo('hunger', 28, '男'); //第1位对应键（变量）name的值hunger；第2位对应键age的值age；第3位对应键sex的值男
+        //若第1位只有值男，则对应键name；其他为定义的键（变量）值是undefined
+
+
+        //function函数中应用arguments
+        function getInfo(name, age, sex) {
+            console.log('name:', name);
+            console.log('age:', age);
+            console.log('sex:', sex);
+            console.log(arguments); //注释掉27盒和28行代码可以看到打印arguments的效果
+            arguments[0] = 'valley'; //声明第0位的值是valley，28行打印出name：valley
+            console.log('name', name);
+        }
+        getInfo('hunger', 28, '男');
+        getInfo('hunger', 28);
+        getInfo(28);
+
+        //重载——相同名字的函数，参数个数不同或者顺序不同都被认为是不同的函数，成为函数重载。js中没有重载，只有覆盖
+        //利用arguments实现重载
+        //想写一个函数，不管多少个参数，都可以得到结果。直接在函数体内用arguments
+        //arguments是在调用函数时传递的参数所构成的数组，例：sum（1,2,10）
+        function sum() { //sum是函数名称
+            var sum = 0; //sum是临时的变量
+            for (var i = 0; i < arguments.length; i++) { //arguments是传递参数时参数组成的数组，arguments对应调用函数时传递的参数
+                sum = sum + arguments[i]; //此处的i是for循环的索引；sum=0开始，在for语句中遍历i的第1次循环0+1即"1[0]" 第2次1+2即"3[1]" 第3次3+10即"13[2]",最终得到结果13 
+            }
+            return sum; //return是返回值，函数执行到return就代表这个函数结束了；一个函数如果没有return相当于return的结果是undefined
+        }
+        console.log(sum(1, 2, 10));
+        /* i就是每次循环的这个值
+            第一步声明索引：var i = 0;第二步每循环一次完成后，i++；第三步i++后，判断循环结束条件是否满足 i < arguments.length
+            arguments现在长度是3，因为有3个参数，从0开始循环循环到2是第3次，所以i=3 时跳出循环，也就是说循环了3次*/
+
+        //return
+        function sayName(name) {
+            if (typeof name !== 'string') {
+                return;
+            }
+            console.log('hello', name);
+        }
+        sayName(123); //123不是字符串，不符合if判断条件，跳出函数
+        sayName('happy'); //值是字符串，符合if判断条件。打印出键hello值happy
+
+        //命名冲突
+        var fn;
+
+        function fn() {};
+        fn = 3;
+        console.log(fn);
+        /*当声明和函数命名冲突时，函数会覆盖声明。对变量赋值=3，又覆盖了函数，打印出最后的结果是变量*/
+
+        //作用域  函数的内部可以访问外部获取值，外部不可以访问内部
+                //立刻执行函数，加过（）括号相当于一个语句，语句自身是一个作用域，不受外部影响。函数声明才会前置
+        for (var i = 0; i < 10; i++) {
+            console.log(i);
+        }
+        console.log(i);
+
+        function fn() {
+            var i = 99;
+            console.log(i);
+        }
+        fn(); //99
+        console.log(i); //10
+
+        function fn() {
+            i = 99;
+            console.log(i);
+        }
+        fn(); //99
+        console.log(i); //99
+
+        function fn2() {
+            i = 100;
+        }
+        fn2();
+        console.log(i);
+        //转换后
+        function fn() {
+            var i;
+            function fn2() {
+                i = 100;
+            }
+            console.log(i);
+            i = 99;
+            fn2();
+            console.log(i);
+        }
+        fn();
+        console.log(i);
+
+        var authorName="山边小溪";
+        function doSomething(){
+            var blogName="梦想天空";
+            function innerSay(){
+                alert(blogName);
+            }
+            innerSay();
+        }
+        alert(authorName); //山边小溪
+        alert(blogName); //脚本错误 原因是局部变量
+        doSomething(); //梦想天空
+        innerSay() //脚本错误 原因是局部变量
+
+/*
+备忘：
+1.undefined对应变量
+2.console.log输出值
+3.if for语句 function函数后面不加分号“；”一般就是特殊语句，或者函数声明
+4.0 == 0     “ == ”比较关系，返回的都是布尔值。包括：大于、小于、等于、严格等于
+  0 || 2 这种且、或的关系，返回的是真值。这里2是真值，所以返回2
+5.break continue跳出循环，return跳出函数
+6.起同名 函数会覆盖变量的命名
+7.一行的结束就被认定为语句的结束，通常在结尾加上一个分号";"来表示语句的结束。
+8.1+2+undefined 结果 NaN
+9.函数表达式 没有声明前置，赋值要写到表达式后面
+10.声明前置。变量与函数名称相同时，先声明变量 后声明函数 对变量赋值 再调用函数，此时会报错
+11.++i 先给i自加1，再计算表达式的值。i++先计算表达式的值，再给i自加1。
+   可以对比一下下面这2个表达式：
+   var i = 1; (++i)+0;  // 2
+   var i = 1; (i++)+0;  // 1
+*/
+    </script>
+</body>
+
+</html>

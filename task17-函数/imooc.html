@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>常用互动方法</title>
+  <script type="text/javascript">
+    /*1、新窗口打开时弹出确认框，是否打开
+        提示: 使用 if 判断确认框是否点击了确定，如点击弹出输入对话框，否则没有任何操作。
+          2、通过输入对话框，确定打开的网址，默认为 http：//www.imooc.com/
+          3、打开的窗口要求，宽400像素，高500像素，无菜单栏、无工具栏。*/
+    function openWindow() {
+      var Wopen = confirm("是否打开"),
+        check = null;
+      if (Wopen == true) {
+        check = prompt("请输入一个网址", "http://www.imooc.com/");
+        window.open("http://www.imooc.com/", "_blank", "width=400,height=500,menubar=no,toolbar=bar");
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <input type="button" value="新窗口打开网站" onclick="openWindow()" />
+</body>
+
+</html>

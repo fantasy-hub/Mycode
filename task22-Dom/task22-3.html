@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul class="ct">
+        <li data-img="http://cdn.jirengu.com/book.jirengu.com/img/11.jpg">鼠标放置查看图片1</li>
+        <li data-img="http://cdn.jirengu.com/book.jirengu.com/img/13.jpg">鼠标放置查看图片2</li>
+        <li data-img="http://cdn.jirengu.com/book.jirengu.com/img/14.jpg">鼠标放置查看图片3</li>
+    </ul>
+    <div class='img-preview'></div>    
+    <script>
+        var ct = document.querySelector('.ct'),
+            childs = ct.querySelectorAll('li'),
+            preview = document.querySelector('.img-preview');
+        for (var i=0; i<childs.length; i++){
+            childs[i].addEventListener('mouseenter', function(){
+                var dataImg = this.getAttribute('data-img');    //得到属性
+                // console.log(this);
+                preview.innerHTML = '<img src="' + dataImg +'">'  //把变量dataImg的data-img属性作为值传入到src路径中
+            });
+        }
+    </script>
+</body>
+</html>

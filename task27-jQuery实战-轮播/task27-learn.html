@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+	
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<title>Learn</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+		<style type="text/css">
+
+		
+		html,body,ul,li,p{
+			margin: 0;
+			padding: 0;
+		}
+		li{
+			list-style: none;
+		}
+		a{
+			text-decoration: none;
+		}
+		
+		.carousel{
+			position: relative;
+			width: 310px;
+			height: 206px;
+			overflow: hidden;  /*overflow:hidden 窗口看到的区域只有显示出的部分，隐藏滚动条*/
+		}
+		.carousel .img-ct{
+			position: absolute;
+		}
+		.carousel .img-ct img{
+			width: 310px;
+			height: 206px;
+		}
+		.carousel .img-ct:after{
+			content: ' ';
+			display: block;
+			clear: both;
+		}
+		.carousel .img-ct li{
+			float: left;
+		}
+
+		.arrow{
+			position: absolute;
+		    top: 50%;
+		    margin-top: -15px;  /*自身高度的一半居中*/
+		    width: 30px;
+		    height: 30px;
+		    line-height: 30px;
+		    text-align: center;
+		    background: #4E443C;
+		    color: #fff;
+		    border-radius: 30px;
+		    box-shadow: 0 0 2px #999;
+		    opacity: 0.8;
+		}
+		.arrow:hover {
+		    opacity: 1;
+		}
+		.pre{
+			left: 10px;
+		}
+		.next{
+			right: 10px;
+		}
+		ul.bullet {
+			position: absolute;
+		    bottom: 10px;
+		    left: 50%;
+		    transform: translateX(-50%);  /*水平方向偏移盒子自身的50%*/
+		}
+		ul.bullet li {
+		    width: 16px;
+		    height: 4px;
+		    border-radius: 2px;
+		    background: #fff;
+		    display: inline-block;
+		    cursor: pointer;
+		}
+
+		ul.bullet li.active {
+		    background: #666;
+		}
+
+
+		</style>
+
+	</head>
+	<body>
+
+		<div class="carousel">
+			<ul class="img-ct">
+				<li data-id=0><a href="#"><img src="http://cdn.jirengu.com/book.jirengu.com/img/26.jpg"></a></li>
+				<li data-id=1><a href="#"><img src="http://cdn.jirengu.com/book.jirengu.com/img/25.jpg"></a></li>
+				<li data-id=2><a href="#"><img src="http://cdn.jirengu.com/book.jirengu.com/img/24.jpg"></a></li>
+				<li data-id=3><a href="#"><img src="http://cdn.jirengu.com/book.jirengu.com/img/23.jpg"></a></li>
+			</ul>
+			<a class="pre arrow" href="#"><</a>
+			<a class="next arrow" href="#">></a>
+			<ul class="bullet">
+				<li class="active"></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+
+
+		
+		<script type="text/javascript">
+		    /*
+        	总体思想：
+			1.父容器相对定位 内部元素绝对定位
+			2.克隆第0位，第末位。取得克隆后父容器宽度，实现子元素在父容器内调整水平偏移值（负值）
+			3.绑定上一页，下一页点击按钮
+			4.对下滑块绑定事件，添加隔页跳转判断
+			5.定义下滑块跳转函数，同时定义下滑块class操作函数
+			*/
+			//第一部分：取得元素
+            var $ct = $('.img-ct'),
+                $items = $ct.children(),
+                $pre = $('.pre'),
+                $next = $('.next'),
+                $bullet = $('.bullet'),
+                imgWidth = $items.width(),  //图片的宽度，用js获取代码复用性会更强
+				imgCount = $ct.children().size();  //li的数量，共4个li
+			console.log(imgWidth);
+
+            $ct.prepend($items.last().clone());  //img-ct的最后一个li克隆到img-ct的第一个孩子的位置
+            $ct.append($items.first().clone());  //img-ct的第一个li克隆到img-ct的最后一个孩子的位置
+			imgRealCount = $ct.children().size();  //添加完成后真实的数量，等同于imgCount+2
+            $ct.css({left: 0-imgWidth, width: imgRealCount*imgWidth}); //调整基准点，将prepend的li向左偏移一个图片宽度，让第0位的li与面板对应
+
+			//第二部分：绑定点击事件
+            var curIdx = 0;  //下标滑块历史位置
+            var isAnimate = false;  //可以点击状态
+			//按钮事件
+            $next.on('click', function(){
+                playNext();
+            });
+            $pre.on('click', function(){
+                playPre();
+			});
+			//滑块事件
+            $bullet.find('li').on('click', function(){  //跳转下标滑块
+                var idx = $(this).index();  //点击的第几个li
+				console.log($(this).index());
+                if(idx > curIdx){
+                    playNext(idx - curIdx);
+                } else if (idx < curIdx){
+                    playPre(curIdx - idx);
+                }
+            });
+
+			//第三部分：自动播放
+			autoPlay();
+			var clock = null;
+            function stopAuto(){
+                clearInterval(clock);
+            }
+            function autoPlay(){
+                clock = setInterval(function(){
+                    playNext();
+                }, 5000);
+            }
+			
+			//第四部分：class替换，及播放函数
+			function setBullet(){
+				$bullet.children().removeClass('active') //等同于$bullet.find(li)
+								  .eq(curIdx).addClass('active');  //.eq(curIdx)索引到当前的curIdx上
+			}
+
+            function playNext(idx){
+                var idx = idx || 1;
+                if(!isAnimate){  //如果没有设锁
+					isAnimate = true;  //上锁
+					//%imgCount取余后，curIdx数值在[0, 1, 2, 3]里变动	
+                    $ct.animate({left: '-='+(imgWidth*idx)}, function(){  //'-='+(imgWidth*idx)向左偏移图片的宽度乘以移动的值
+						curIdx = (curIdx + idx)%imgCount;  //当前的curIdx的位置。imgCount等于4，(3 + 1)%4 余数0，curIdx回到初始位置(替换成历史面板)-23分23秒。
+						if(curIdx === 0){  
+							$ct.css({left: 0-imgWidth});  //还原初始状态到面板1处
+						}
+						/*写法2
+						curIdx++;
+						if(curIdx === imgCount){
+							$ct.css({left: 0-imgWidth});
+							curIdx = 0;*/
+						isAnimate = false;  //当动画执行完成之后再设置为false解锁，变成可以点击状态
+						setBullet();
+					});
+                }
+            }
+
+			function playPre(idx){
+				var idx = idx || 1;
+				if(!isAnimate){  //如果没有设锁
+					isAnimate = true;  //锁住
+					$ct.animate({left: '+=' + imgWidth*idx}, function(){  //向右移动一格 
+						curIdx = (imgCount + curIdx - idx)%imgCount;  //临界条件：(4+0-1)%4余3，curIdx=0，相当于点击到-1位置上。此时替换面板将curIdx位置在第四个li上。
+						if(curIdx === (imgCount - 1)){
+							$ct.css({left: 0-imgWidth*imgCount});  //向左移动替换到原始面板3处
+						}
+						isAnimate = false;  
+						setBullet();						
+					});
+				}
+			}
+			/*其实这里的isAnimate就是个锁  为了不让你往死里滑。
+			先不看if当你执行动画时，先上个锁，isAnimate = true ，这时候你马上又执行一次动画，
+			由于isAnimate为true  意思是“动画正在执行”  所以就直接返回
+			啥时候执行完了  啥时候给 isAnimate=false
+			当为false时，你再滑 就能继续往下滑了
+			比如说这个动画要执行1s才结束，如果按这里的写法，你必须等到1s之后再执行动画
+			如果不上这个锁  那你可以在动画没执行完就一直滑   比如滑个200次  那动画就会执行200s*/
+		</script>
+	</body>
+</html>

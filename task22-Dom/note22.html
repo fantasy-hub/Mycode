@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input id="btn" type="button" value="Click Here" />
+    <script>
+        //1.dom对象的innerText和innerHTML有什么区别？
+        /*innerText只提取文本（替换文本），innerHTML会提取内部所有的标签和文本（替换标签）*/
+        //2.elem.children和elem.childNodes的区别？
+        /*elem.children获取文本节点以外的标签，elem.childNodes获取所有的子节点 */
+
+        // //获取元素的函数
+        function & (selector){
+            if (selector[0] === '#'){
+                return docunment.querySelector(selector);
+            } else {
+                return document.querySelectorAll(selector);
+            }
+        }
+        $('#p1');
+
+        //获取Dom的方法
+        function $$(el){
+            if (el.length < 1){
+                return; //字符串长度小于一，表示为空字符，直接跳出
+            }
+            var sub = el.subtring(1); //获取字符串的第一位
+            if (el[0] === '#'){
+                return document.getElementById(sub);
+            } else if (el[0] === '.'){
+                return document.getElementsByClassName(sub);
+            } else {
+                return document.getElementsByTagName(el); //否则直接按标签el元素处理
+            }
+        }
+        addEvent($$('#btn'), 'click', function(e){ //e为event对象
+            var evt = getEvent(e); //用getEvent的(e) 得到evt
+                target = getTarget(e); //getTarget的(e) 得到target
+            console.log(this.e);
+    
+            //下面为event事件属性
+            preventDefault(e); //阻止a标签跳转
+            stopProgation(e); //取消事件进一步捕获或冒泡
+        });
+        addEvent($$('body', 'click', function(e){
+            console.log(e);
+        }));
+    </script>
+</body>
+</html>

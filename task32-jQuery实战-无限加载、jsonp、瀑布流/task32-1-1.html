@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>瀑布流+懒加载+jasonp —— 思路1</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.min.js"></script>
+    <style>
+        html, body, ul, li, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        .ct {
+            position: relative;
+            padding: 10px;
+            margin: 0 auto;
+        }
+        
+        .clearfix：after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .ct .item {
+            background: #fff;
+            width: 200px;
+            position: absolute;
+            padding: 0 0 10px 0;
+            box-shadow: 2px 2px 2px #E8E8E8, -2px -2px 2px #E8E8E8;
+            border: 1px solid #DFDFDF;
+            margin: 10px;
+            transition: all 1s;
+        }
+
+        .ct .item a {
+            display: block;
+        }
+        .ct .item img {
+            /* margin: 12px;
+            width: 176px; */
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        .ct .item .header {
+            padding-bottom: 10px;
+            margin: 0 12px;
+            border-bottom: 1px solid #DBDBDB;
+        }
+
+        .ct .desp {
+            font-size:12px;
+            line-height: 1.8;
+            margin: 10px 15px 0;
+            color: #777371;
+        }
+
+        #load {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="ct-waterfall">
+        <ul id="pic-ct" class="ct clearfix">
+            <!-- <li class="item">
+                <a href="#" class="link">
+                    <img src="" alt="">
+                </a>
+                <h4 class="header"></h4>
+                <p class="desp"></p>
+            </li> -->
+        </ul>
+        <div id="load">隐藏标记位</div>
+    </div>
+
+
+    <script>
+/*        
+        var Exposure = {
+            init: function($target, handler){
+                this.$c = $(window);
+                this.$target = $target;
+                this.handler = handler;
+
+                this.bind();
+                this.checkShow();
+            },
+            bind: function(){
+                var me = this,
+                    clock = null,
+                    interval = 100;
+                $(window).on('scroll', function(clock){
+                    if(clock){
+                        clearTimeout(clock);
+                    }
+                    clock = setTimeout(function(){
+                        me.checkShow();
+                    }, interval);
+                });
+            },
+            checkShow: function(){
+                var me = this;
+                this.$target.each(function(){
+                    var $cur = $(this);
+                    if(me.isShow($cur)){
+                        if(me.handler){
+                            me.handler.call(this);
+                        }
+                    }
+                });
+            },
+            isShow: function($el){
+                var scrollH = this.$c.scrollTop(),
+                    winH = this.$c.height(),
+                    top = $el.offset().top;
+                if(winH + scrollH > top){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+*/
+        var Exposure = {
+            init: function($target, handler){
+                this.$target = $target;
+                this.handler = handler;
+                this.clock = null;
+
+                this.bind();
+                this.checkShow();
+            },
+            bind: function(){
+                var that = this;
+                $(window).on('scroll', function(){
+                    if(that.clock){
+                        clearTimeout(that.clock);
+                    }
+                    that.clock = setTimeout(function(){
+                        that.checkShow();
+                    }, 300);
+                });
+            },
+            isShow: function(target){
+                console.log(1);
+                var top = target.offset().top,
+                    $winH = $(window).height(),
+                    $scrollH = $(window).scrollTop;
+                console.log(top, $winH, $scrollH);
+                if(top < $winH + $scrollH){
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            checkShow: function(){
+                console.log(1);
+                if(this.isShow(this.$target)){
+                    this.handler();
+                }
+            }
+        }
+
+        var waterFall = {
+            // arrHeight: [],
+            init: function($ct){
+                this.$ct = $ct;
+                this.arrHeight = [];
+
+                this.bind();
+                this.start();
+            },
+            bind: function(){
+                var me = this;
+                $(window).on('resize', function(){
+                    me.start();
+                });
+            },
+            start: function($nodes){
+                var me = this;
+                this.$items = this.$ct.find('.item');
+                if(this.$items.length === 0) return;
+                this.$ctWidth = this.$ct.width();
+                console.log(this.$ctWidth);
+                this.itemWidth = this.$items.outerWidth(true);
+                this.colNum = Math.floor(this.$ctWidth / this.itemWidth);
+                this.$ct.width(this.itemWidth * this.colNum);
+                console.log(this.$ct.width());
+                console.log(this.itemWidth);
+                console.log(this.colNum);
+
+                if(this.arrHeight.length === 0 || !$nodes){
+                    this.arrHeight = [];
+                    for(var i=0; i<this.colNum; i++){
+                        this.arrHeight[i] = 0;
+                    }
+                }
+                if($nodes){
+                    console.log(this.arrHeight.length);
+                    $nodes.each(function(){
+                        var $item = $(this);
+                        $item.find('img').load(function(){
+                            me.placeItem($item);
+                            me.$ct.height(Math.max.apply(this, me.arrHeight));
+                        });
+                    });
+                } else {
+                    this.$items.each(function(){
+                        var $item = $(this);
+                        me.placeItem($item);
+                    });
+                    console.log(me.arrHeight);
+                    me.$ct.height(Math.max.apply(this, me.arrHeight));
+                }
+            },
+            placeItem: function($el){
+                var o = this.getIndexOfMin(this.arrHeight),
+                    idx = o.idx,
+                    min = o.min;
+                $el.css({
+                    left: this.itemWidth * idx,
+                    top: min  //y轴放置最小arr[i]
+                });
+                // console.log(o, idx, min, this.itemWidth);
+                this.arrHeight[idx] += $el.outerHeight(true);
+            },
+            getIndexOfMin: function(arr){
+                var idx = 0,
+                    min = arr[0];
+                for(var i=0; i<arr.length; i++){
+                    if(arr[i] < min){
+                        idx = i;
+                        min = arr[i];
+                    }
+                }
+                return {
+                    idx: idx,
+                    min: min
+                };
+            }
+        }
+
+        var lock = false, 
+            page = 1,
+            pageCount = 30;
+
+
+        function getData(callback){
+            console.log(page);
+            if(lock){
+                return; //起始状态为false，所以不会执行if语句
+            }
+            lock = true;  //上锁，禁止滚动
+            $.ajax({
+                url: 'http://platform.sina.com.cn/slide/album_tech',
+                type: 'get',
+                dataType: 'jsonp',
+                jsonp: 'jsoncallback',
+                data: {
+                    app_key: '1271687855',
+                    format: 'json',
+                    size: 'img',
+                    page: page,
+                    num: pageCount
+                },
+                success: function(ret){
+                    console.log(ret);
+                    lock = false;  //请求到数据，此时解锁变为可以滚动
+                    if(ret.status.code == 0){
+                        callback(ret.data);
+                        page++;
+                        console.log(page);
+                    }
+                },
+                error: function(){
+                    lock = false;  //发生错误是，变为解锁状态可以滚动，可以继续执行请求数据
+                }
+            });
+        }
+        /*一开始是false  所以return不跳出，
+        给lock设置为true，这时候发送请求，请求返回结果之前，
+        lock一直都是true 所以这时候你要是往死里划，一直都是跳出函数
+        当请求成功了，lock设置为false，这时候一切和一开始一样了，可以继续发请求了*/
+        function renderData(items){
+            var $nodes,
+                im = '';
+            for(var i=0; i<items.length; i++){
+                im += '<li class="item">';
+                im += ' <a href="#" class="link"><img src="' + items[i].img_url + '"alt=""></a>';
+                im += ' <h4 class="header">' + items[i].short_name + '</h4>';
+                im += ' <p class="desp">' + items[i].short_intro + '</p>';
+                im += '</li>';
+            }
+            $nodes = $(im);
+            $('#pic-ct').append($nodes);
+            return $nodes;
+            console.log($nodes);
+        }
+
+
+        $(function(){
+            waterFall.init($('#pic-ct'));
+            Exposure.init($('#load'), function(){
+                getData(function(data){
+                    console.log(1);
+                    var $nodes = renderData(data);
+                    waterFall.start($nodes);
+                    console.log(1);
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>task17</title>
+</head>
+
+<body>
+    <script>
+        //写一个函数，返回参数的平方和
+        function sumOfSquare() {
+            var sum = 0; //另for语句内sum初始值为0
+            for (var i = 0; i < arguments.length; i++) {
+                sum = arguments[i] * arguments[i] + sum;
+            }
+            console.log(sum);
+        }
+        sumOfSquare(2, 3, 4);
+        sumOfSquare(1, 3);
+
+        //如下代码的输出？ a-undefined 由于声明提前，b is not defined 由于b变量未声明
+        console.log(a);
+        var a = 1;
+        console.log(b);
+
+        //如下代码的输出？ 3，声明提前 指针从声明变量指向声明函数，对变量赋值3 指针又回到了变量
+        function fn() {}
+        var fn = 3;
+        console.log(fn);
+
+        //如下代码的输出？
+        function fn(fn2) {
+            console.log(fn2);
+            var fn2 = 3;
+            console.log(fn2);
+            console.log(fn);
+
+            function fn2() {
+                console.log('fnnn2');
+            }
+        }
+        fn(10);
+        //转换
+        function fn(fn2) {
+            var fn2;
+
+            function fn2() {
+                console.log('fnnn2');
+            }
+            console.log(fn2);
+            fn2 = 3;
+            console.log(fn2);
+            console.log(fn);
+        }
+        fn(10);
+
+        //如下代码的输出？ fn = 1为最终结果，不是函数，所以显示错误。
+        var fn = 1;
+
+        function fn(fn) {
+            console.log(fn);
+        }
+        console.log(fn(fn));
+
+        //如下代码的输出？ undefined undefined 10 100
+        console.log(j);
+        console.log(i);
+        for (var i = 0; i < 10; i++) {
+            var j = 100;
+        }
+        console.log(i);
+        console.log(j);
+
+        //如下代码的输出？
+        fn();
+        var i = 10;
+        var fn = 20;
+        console.log(i);
+
+        function fn() {
+            console.log(i);
+            var i = 99;
+            fn2();
+            console.log(i);
+
+            function fn2() {
+                i = 100;
+            }
+        }
+        //转换
+        var i;
+        var fn;
+
+        function fn() {
+            var i;
+
+            function fn() {
+                i = 100;
+            }
+            console.log(i);
+            i = 99;
+            fn2();
+            console.log(i);
+        }
+        fn();
+        i = 10;
+        fn = 20;
+        console.log(i);
+        /*
+        首先将变量和函数前置，并且将函数内部嵌套函数作用域内也进行前置操作；
+        然后按照顺序，首先执行fn()，会遇到第一个console.log(i)，由于此时i未赋值，所以为undefined
+        然后执行fn2()函数，由于fn2()函数中的i未声明，所以定义的是全局变量，所以下一个console.log(i)为100；
+        继续往下执行，i = 10定义全局变量，所以最后一个console.log(i)为10。
+        */
+
+        //如下代码的输出？
+        var say = 0;
+        (function say(n) {
+            console.log(n);
+            if (n < 3) return;
+            say(n - 1);
+        }(10));
+        console.log(say);
+        /*
+        首先，放在一个()中，并且有分号结尾，说明其实一个语句，即“立即执行的函数表达式”，所以函数不会前置，按照顺序执行，
+        立即执行的表达式中发生迭代，显示10，9，8......3，2，满足if条件，return跳出函数，
+        继续执行下面的console.log(say);语句，
+        由于立即执行的函数表达式中的say生命周期已经结束，所以console.log寻找全局变量say，为0。
+        */
+    </script>
+</body>
+
+</html>
