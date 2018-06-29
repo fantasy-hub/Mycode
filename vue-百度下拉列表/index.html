@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>百度下拉列表</title>
+    <script src="vue.js"></script>
+    <script src="vue-resource.js"></script>
+    <style>
+        .gray{
+            background: #ccc;
+        }
+        #box {
+            width: 480px;
+            margin: 20px auto;
+        }
+        input {
+            width: 480px;
+            height: 30px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            outline: none;
+        }
+        body {
+            background-image: url(http://ocx7m1fc8.bkt.clouddn.com/experience-create-01.jpg);
+            background-size: cover;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        h1 {
+            text-align: center;
+            color: #666;
+        }
+        ul {
+            margin: 0;
+            padding: 0px;
+           list-style: none;
+           text-align: left; 
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <input type="text" v-model="t1" @keyup="getData($event)" @keydown.down="changeDown" @keydown.up.prevent="changeUp">
+        <ul>
+            <li v-for="(value,index) in myData" :class="{gray: index == now}">
+                {{value}}
+            </li>
+        </ul>
+        <p v-show="myData.length == 0">暂无数据...</p>
+    </div>
+
+
+    <script>
+        var vm = new Vue({
+            el: '#box',
+            data: {
+                myData: [],
+                t1: '',
+                now: -1
+            },
+            methods: {
+                getData(ev){
+                    //当keydown移动时，避免keyup的getData重复请求，对getaData传入事件对象$event
+                    //如果按上或下，跳出getaData函数
+                    if(ev.keyCode == 38 || ev.keyCode == 40){
+                        return;
+                    }
+
+                    //当回车执行搜索
+                    if(ev.keyCode == 13){
+                        window.open(' https://www.baidu.com/s?wd=' + this.t1);
+                    }
+
+                    this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+                        wd: this.t1
+                    },{
+                        jsonp: 'cb'
+                    }).then(function(res){
+                        this.myData = res.data.s;
+                    }).catch(function(err){
+                        console.log(err);
+                    });
+                },
+                changeDown(){
+                    this.now++;
+                    if(this.now == this.myData.length){
+                        this.now = -1;
+                    }
+                    //把下键选中的数据传给t1
+                    this.t1 = this.myData[this.now];
+                },
+                changeUp(){
+                    this.now--;
+                    if(this.now == -2){
+                        this.now=this.myData.length-1;
+                    }
+                    this.t1 = this.myData[this.now];
+                }
+            }
+        });
+    </script>
+</body>
+</html>
